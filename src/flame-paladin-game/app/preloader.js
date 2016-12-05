@@ -16,6 +16,8 @@ Game.Preloader.prototype = {
       this.load.audio("menu", "flame-paladin-game/assets/bg-music/Puzzle-Game-2.mp3");
       this.load.audio("level1", "flame-paladin-game/assets/bg-music/Castle-of-Despair.mp3");
       this.load.audio("gameover", "flame-paladin-game/assets/bg-music/Unpleasant-Discovery.mp3");
+
+      this.load.audio("pressEnter", "flame-paladin-game/assets/sound-effects/menu-select.mp3")
     },
 
     create: function() {
