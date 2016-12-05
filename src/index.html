@@ -20,20 +20,20 @@
 
   <my-app>Loading...</my-app>
 
-  <script type="text/javascript">
-      window.onload = function() {
-      var game = new Phaser.Game(700, 500, Phaser.AUTO, 'game-render');
-      game.state.add('Boot', Game.Boot);
-      game.state.add('Preloader', Game.Preloader);
-      game.state.add('Level1', Game.Level);
-      game.state.start('Boot');
-      }
+    <script type="text/javascript">
+        window.onload = function() {
+          var game = new Phaser.Game(700, 500, Phaser.AUTO, 'game-render');
+            game.state.add('Boot', Game.Boot);
+            game.state.add('Preloader', Game.Preloader);
+            game.state.add('Level1', Game.Level);
+            game.state.start('Boot');
+        }
     </script>
 
-    <script src="src/app/flame-paladin-game/app/phaser.js"></script>
-    <script src="src/app/flame-paladin-game/app/boot.js"></script>
-    <script src="src/app/flame-paladin-game/app/preloader.js"></script>
-    <script src="src/app/flame-paladin-game/app/level1.js"></script>
+    <script src="./flame-paladin-game/app/phaser.js"></script>
+    <script src="./flame-paladin-game/app/boot.js"></script>
+    <script src="./flame-paladin-game/app/preloader.js"></script>
+    <script src="./flame-paladin-game/app/level1.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"                   integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
   </body>
