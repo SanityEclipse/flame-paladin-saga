@@ -1,18 +1,1 @@
-#static-header {
-  font-family: 'Press Start 2P', cursive;
-  background-color: black;
-}
 
-#static-header > h1 {
-  margin-left: 21%;
-  color: red;
-}
-
-#sticky-footer {
-  background-color: black;
-  color: red;
-}
-
-#sticky-footer-text {
-  font-family: 'Press Start 2P', cursive;
-}
