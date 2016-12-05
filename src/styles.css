@@ -7,3 +7,12 @@
   margin-left: 20%;
   color: red;
 }
+
+#sticky-footer {
+  background-color: black;
+  color: red;
+}
+
+#sticky-footer-text {
+  font-family: 'Press Start 2P', cursive;
+}
