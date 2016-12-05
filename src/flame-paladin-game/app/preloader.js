@@ -9,6 +9,7 @@ Game.Preloader.prototype = {
       this.preloadBar.anchor.setTo(0.5, 0.5);
       this.time.advancedTiming = true;
       this.load.setPreloadSprite(this.preloadBar);
+      
     },
 
     create: function() {
