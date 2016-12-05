@@ -12,7 +12,7 @@ Game.Preloader.prototype = {
     },
 
     create: function() {
-      this.state.start('Test Level', true, false);
+      this.state.start('Level1', true, false);
     },
 
 };
