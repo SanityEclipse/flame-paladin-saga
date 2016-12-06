@@ -2,6 +2,7 @@ Game.Level1 = function(game){}
 
 var background;
 var controls = {}; // basic controls implemented; mapped to 'D', 'A', 'W', and 'SPACEBAR'
+var count = 0;
 var facing;
 var jumpTimer = 0;
 // var blockedLayer;
@@ -9,6 +10,7 @@ var jumpTimer = 0;
 var map;
 var player;
 var playerSpeed = 500; //adjusts player sprite movement in-game.
+var portait;
 var text; //needed to add in-game text
 
 Game.Level1.prototype = {
@@ -27,10 +29,7 @@ Game.Level1.prototype = {
     backgroundLayer = map.createLayer("Background");
     blockedLayer = map.createLayer("Collision");
 
-    map.setCollisionBetween(1, 2000, true, 'Collision');
-
-    // layer = map.createLayer('Collision');
-    // layer.resizeWorld();
+    map.setCollisionBetween(1, 1000, true, 'Collision');
 
     backgroundLayer.resizeWorld();
 
@@ -51,7 +50,19 @@ Game.Level1.prototype = {
         up: this.input.keyboard.addKey(Phaser.Keyboard.W),
         shoot: this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR) //unassigned
       }
+      portait = this.add.sprite(10, 522, 'portait');
+      portait.scale.x= 0.5;
+      portait.scale.y= 0.5;
 
+      portait.fixedToCamera = true;
+
+      text = game.add.text(game.camera.x + 65, game.camera.y + 550, count, {
+        font: '25px Press Start 2P',
+        fill: '#ffffff',
+        align: 'center'
+      });
+
+      text.fixedToCamera = true;
 
   },
 
