@@ -1,6 +1,6 @@
 Game.Menu= function(game){}
 
-var upKey;
+var enterKey;
 var timer = 0;
 var text;
 var text2;
@@ -30,7 +30,7 @@ Game.Menu.prototype = {
 
     text3 = game.add.text(215, 350, '-Demo Build-', style2);
 
-    upKey = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
+    enterKey = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
 
     },
 
@@ -43,7 +43,7 @@ Game.Menu.prototype = {
         text2.visible = !text2.visible;
       }
 
-      if (upKey.isDown) {
+      if (enterKey.isDown) {
           this.select.play();
           this.state.start('Level1', true, false);
       }
