@@ -19,7 +19,10 @@ Game.Preloader.prototype = {
       this.load.image('portait', 'flame-paladin-game/assets/images/portait.png');
 
 
-      this.load.spritesheet('player', 'flame-paladin-game/assets/images/MergedPaladin.png', 128, 128);
+      this.load.spritesheet('player', 'flame-paladin-game/assets/images/merged-paladin.png', 128, 128);
+      this.load.spritesheet('fire-right', 'flame-paladin-game/assets/images/fireball-right.png', 64, 64)
+      this.load.spritesheet('fire-left', 'flame-paladin-game/assets/images/fireball-left.png', 64, 64)
+
 
       this.load.audio("menu", "flame-paladin-game/assets/bg-music/Puzzle-Game-2.mp3");
       this.load.audio("level1", "flame-paladin-game/assets/bg-music/Castle-of-Despair.mp3");
