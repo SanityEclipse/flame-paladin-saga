@@ -20,25 +20,25 @@
 
   <my-app>Loading...</my-app>
 
-    <script type="text/javascript">
-        window.onload = function() {
-          var game = new Phaser.Game(800, 600, Phaser.AUTO, 'game-renders-here');
-            game.state.add('Boot', Game.Boot);
-            game.state.add('Preloader', Game.Preloader);
-            game.state.add('Menu', Game.Menu);
-            game.state.add('Level1', Game.Level1);
-            // game.state.add('GameOver', Game.GameOver);
-            game.state.start('Boot');
-        }
-    </script>
+  <script type="text/javascript">
+      Qwindow.onload = function() {
+        var game = new Phaser.Game(800, 600, Phaser.AUTO, 'game-renders-here');
+          game.state.add('Boot', Game.Boot);
+          game.state.add('Preloader', Game.Preloader);
+          game.state.add('Menu', Game.Menu);
+          game.state.add('Level1', Game.Level1);
+          // game.state.add('GameOver', Game.GameOver);
+          game.state.start('Boot');
+      }
+  </script>
 
-    <script src="./flame-paladin-game/app/phaser.js"></script>
-    <script src="./flame-paladin-game/app/boot.js"></script>
-    <script src="./flame-paladin-game/app/preloader.js"></script>
-    <script src="./flame-paladin-game/app/menu.js"></script>
-    <script src="./flame-paladin-game/app/level1.js"></script>
-    <!-- <script src="./flame-paladin-game/app/gameover.js>"></script>  -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"                   integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"                   integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  <!-- <script src="./flame-paladin-game/app/gameover.js>"></script>  -->
+  <script src="./flame-paladin-game/app/phaser.js"></script>
+  <script src="./flame-paladin-game/app/boot.js"></script>
+  <script src="./flame-paladin-game/app/preloader.js"></script>
+  <script src="./flame-paladin-game/app/menu.js"></script>
+  <script src="./flame-paladin-game/app/level1.js"></script>
 
   </body>
 
