@@ -19,7 +19,7 @@ Game.Preloader.prototype = {
       this.load.image('portait', 'flame-paladin-game/assets/images/portait.png');
 
 
-      this.load.spritesheet('player', 'flame-paladin-game/assets/images/merged-paladin.png', 128, 128);
+      this.load.spritesheet('player', 'flame-paladin-game/assets/images/merged-paladin-1.png', 80, 128);
       this.load.spritesheet('fire-right', 'flame-paladin-game/assets/images/fireball-right.png', 64, 64)
       this.load.spritesheet('fire-left', 'flame-paladin-game/assets/images/fireball-left.png', 64, 64)
 
@@ -28,7 +28,8 @@ Game.Preloader.prototype = {
       this.load.audio("level1", "flame-paladin-game/assets/bg-music/Castle-of-Despair.mp3");
       this.load.audio("gameover", "flame-paladin-game/assets/bg-music/Unpleasant-Discovery.mp3");
 
-      this.load.audio("pressEnter", "flame-paladin-game/assets/sound-effects/menu-select.mp3")
+      this.load.audio("pressEnter", "flame-paladin-game/assets/sound-effects/menu-select.mp3");
+      this.load.audio("fireball-sound", "flame-paladin-game/assets/sound-effects/fireball.mp3");
     },
 
     create: function() {

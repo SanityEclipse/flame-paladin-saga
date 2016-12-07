@@ -27,6 +27,8 @@ Game.Level1.prototype = {
     background.height = game.height;
     background.fixedToCamera = true;
 
+    this.shoot = game.add.audio("fireball-sound");
+
     this.physics.arcade.gravity.y = 1000;
 
     backgroundMusic = game.add.audio('level1');
@@ -50,7 +52,7 @@ Game.Level1.prototype = {
     player.anchor.setTo(0.5, 0.5);
 
     player.animations.add('idle', [8, 9], 2, true);
-    player.animations.add('jump', [0], 1, true);
+    player.animations.add('jump', [15], 1, true);
     player.animations.add('run', [0, 1, 2, 3, 4, 5, 6, 7], 10, true);
     player.animations.add('shoot-fireball-right', [10, 11, 12, 13, 14], 20, false);
     player.animations.add('shoot-fireball-left', [10, 11, 12, 13, 14], 20, false);
@@ -98,8 +100,7 @@ Game.Level1.prototype = {
     fireballsRight.setAll('checkWorldBounds', true);
     fireballsRight.setAll('body.allowGravity', false);
     fireballsRight.callAll('animations.add', 'animations', 'fire-right', [0, 1, 2, 3, 4], 5, true);
-
-      // fireballsRight.callAll('play', null, 'bird');
+    fireballsRight.callAll('play', null, 'fireball-sound');
 
     fireballsLeft = game.add.group();
     fireballsLeft.enableBody = true;
@@ -111,8 +112,7 @@ Game.Level1.prototype = {
     fireballsLeft.setAll('checkWorldBounds', true);
     fireballsLeft.setAll('body.allowGravity', false);
     fireballsLeft.callAll('animations.add', 'animations', 'fire-left', [0, 1, 2, 3, 4], 5, true);
-
-      // fireballsLeft.callAll('play', null, 'bird');
+    fireballsLeft.callAll('play', null, 'fireball-sound');
 
     text.fixedToCamera = true;
     text1.fixedToCamera = true;
@@ -127,7 +127,9 @@ Game.Level1.prototype = {
     player.body.velocity.x = 0;
 
     if (controls.right.isDown) {
-      player.animations.play('run');
+      if (player.body.onFloor() || player.body.touching.down) {
+        player.animations.play('run');
+      }
       player.scale.setTo(1, 1);
       player.body.velocity.x += playerSpeed;
       facing = 'right';
@@ -135,7 +137,9 @@ Game.Level1.prototype = {
     }
 
     if (controls.left.isDown) {
-      player.animations.play('run');
+      if (player.body.onFloor() || player.body.touching.down) {
+        player.animations.play('run');
+      }
       player.scale.setTo(-1, 1);
       player.body.velocity.x -= playerSpeed;
       facing = 'left';
@@ -168,7 +172,7 @@ Game.Level1.prototype = {
       shootTime = this.time.now + 800;
       fireball = fireballsRight.getFirstExists(false);
       if (fireball) {
-          // this.shoot.play();
+          this.shoot.play();
           fireball.reset(player.x, player.y);
           player.animations.play('shoot-fireball-right');
           fireball.body.velocity.x = 800;
@@ -182,7 +186,7 @@ Game.Level1.prototype = {
       shootTime = this.time.now + 800;
       fireball = fireballsLeft.getFirstExists(false);
       if (fireball) {
-          // this.shoot.play();
+          this.shoot.play();
           fireball.reset(player.x, player.y);
           player.animations.play('shoot-fireball-left');
           fireball.body.velocity.x = -800;
