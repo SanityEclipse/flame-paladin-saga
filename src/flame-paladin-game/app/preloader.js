@@ -32,7 +32,7 @@ Game.Preloader.prototype = {
     },
 
     create: function() {
-      this.state.start('Menu', true, false);
+      this.state.start('Menu');
     },
 
 };

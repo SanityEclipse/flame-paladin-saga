@@ -1,17 +1,15 @@
 Game.Level1 = function(game){}
 
 var background;
-var controls = {}; // basic controls implemented; mapped to 'D', 'A', 'W', and 'SPACEBAR'
+var controls = {};
 var count = 0;
 var facing;
 var fireballs;
 var jumpTimer = 0;
-// var blockedLayer;
-// var backgroundlayer
 var mana = 10;
 var map;
 var player;
-var playerSpeed = 500; //adjusts player sprite movement in-game.
+var playerSpeed = 500;
 var portait;
 var shootTime = 0;
 var text;
@@ -22,24 +20,33 @@ Game.Level1.prototype = {
 
   create: function (game) {
 
+    this.camera.flash('#000000');
+
     background = this.add.image(0, 0, "Level_Bg");
     background.width = game.width;
     background.height = game.height;
     background.fixedToCamera = true;
-    this.physics.arcade.gravity.y = 1400;
+
+    this.physics.arcade.gravity.y = 1000;
+
+    backgroundMusic = game.add.audio('level1');
+    backgroundMusic.loop = true;
+    backgroundMusic.play();
 
     map = this.add.tilemap('myMap');
-    map.addTilesetImage('level1', 'tileset');
+    map.addTilesetImage('level1map', 'tileset');
 
     backgroundLayer = map.createLayer("Background");
     blockedLayer = map.createLayer("Collision");
+
+
 
     map.setCollisionBetween(1, 1000, true, 'Collision');
 
 
     backgroundLayer.resizeWorld();
 
-    player = this.add.sprite(100, 1000, 'player');
+    player = this.add.sprite(100, 2500, 'player');
     player.anchor.setTo(0.5, 0.5);
 
     player.animations.add('idle', [8, 9], 2, true);
@@ -91,7 +98,7 @@ Game.Level1.prototype = {
     fireballsRight.setAll('checkWorldBounds', true);
     fireballsRight.setAll('body.allowGravity', false);
     fireballsRight.callAll('animations.add', 'animations', 'fire-right', [0, 1, 2, 3, 4], 5, true);
-    
+
       // fireballsRight.callAll('play', null, 'bird');
 
     fireballsLeft = game.add.group();
@@ -150,12 +157,6 @@ Game.Level1.prototype = {
       this.shootFireballLeft();
     }
 
-    // if (player.body.velocity.x == 0 && player.body.velocity.y == 0 && controls.shoot.isDown) {
-    //   this.shootFireball();
-    //   player.animations.play('shoot-fireball');
-    //
-    // }
-
     if (player.body.velocity.x == 0 && player.body.velocity.y == 0 && !controls.shoot.isDown){
       player.animations.play('idle');
     }
@@ -170,27 +171,32 @@ Game.Level1.prototype = {
           // this.shoot.play();
           fireball.reset(player.x, player.y);
           player.animations.play('shoot-fireball-right');
-          fireball.body.velocity.x = 600;
+          fireball.body.velocity.x = 800;
           text2.setText(mana -= 1);
-
-
       }
     }
   },
 
   shootFireballLeft: function() {
-  if (this.time.now > shootTime) {
+    if (this.time.now > shootTime) {
       shootTime = this.time.now + 800;
       fireball = fireballsLeft.getFirstExists(false);
       if (fireball) {
           // this.shoot.play();
           fireball.reset(player.x, player.y);
           player.animations.play('shoot-fireball-left');
-          fireball.body.velocity.x = -600;
+          fireball.body.velocity.x = -800;
           text2.setText(mana -= 1);
 
       }
     }
-  },
-
+  }
+}
+function checkOverlap(spriteA, spriteB) {
+  if (spriteA.alive == false || spriteB.alive == false){
+    return false
+  }
+    var boundsA = spriteA.getBounds();
+    var boundsB = spriteB.getBounds();
+    return Phaser.Rectangle.intersects(boundsA, boundsB);
 }

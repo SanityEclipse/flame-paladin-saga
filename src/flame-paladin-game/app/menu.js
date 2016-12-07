@@ -1,5 +1,6 @@
 Game.Menu= function(game){}
 
+var backgroundMusic;
 var enterKey;
 var timer = 0;
 var text;
@@ -45,7 +46,9 @@ Game.Menu.prototype = {
 
       if (enterKey.isDown) {
           this.select.play();
-          this.state.start('Level1', true, false);
+          backgroundMusic.loop = false;
+          backgroundMusic.stop();
+          this.state.start('Level1');
       }
 
     },
