@@ -1,5 +1,7 @@
 var Game = {};
+
 Game.Boot = function(game) {};
+
 Game.Boot.prototype = {
     init: function() {
         this.input.maxpointers = 1;
@@ -11,6 +13,5 @@ Game.Boot.prototype = {
     },
     create: function() {
         this.state.start('Preloader')
-
     }
 }
