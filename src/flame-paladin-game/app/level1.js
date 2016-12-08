@@ -28,6 +28,7 @@ Game.Level1.prototype = {
     background.fixedToCamera = true;
 
     this.shoot = game.add.audio("fireball-sound");
+    this.jumpSound = game.add.audio("jump-sound");
 
     this.physics.arcade.gravity.y = 1000;
 
@@ -147,6 +148,7 @@ Game.Level1.prototype = {
     }
 
     if (controls.up.isDown && (player.body.onFloor() || player.body.touching.down) && this.time.now > jumpTimer) {
+      this.jumpSound.play()
       player.body.velocity.y = -700;
       jumpTimer = this.time.now + 750;
       player.animations.play('jump');

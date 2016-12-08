@@ -1,14 +1,13 @@
-Game.Menu= function(game){}
+Game.Directions= function(game){}
 
 var backgroundMusic;
 var enterKey;
-var timer = 0;
-var text;
-var text2;
-var text3;
+var text4;
+var text5;
+var text6;
 
 
-Game.Menu.prototype = {
+Game.Directions.prototype = {
 
   create: function(game){
 
@@ -22,14 +21,13 @@ Game.Menu.prototype = {
       font: "28px Press Start 2P", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle" };
 
     var style2 = {
-      font: "28px Press Start 2P", fill: "#99ccff", boundsAlignH: "center", boundsAlignV: "middle" };
+      font: "28px Press Start 2P", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle" };
 
-    text = game.add.text(0, 0, "The Last Flame Paladin II", style);
-    text.setTextBounds(0, 100, 800, 100);
+    text4 = game.add.text(225, 100, "HOW TO PLAY", style);
 
-    text2 = game.add.text(225, 500, "PRESS ENTER", style);
+    text5 = game.add.text(100, 200, '   A, S, W, = Move\nSpace bar = Fireball', style2);
 
-    text3 = game.add.text(215, 350, '-Demo Build-', style2);
+    text6 = game.add.text(100, 500, "PRESS ENTER TO BEGIN", style);
 
     enterKey = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
 
@@ -38,18 +36,11 @@ Game.Menu.prototype = {
 
   update: function(game) {
 
-    timer += game.time.elapsed;
-      if (timer >= 500) {
-        timer -= 500;
-        text2.visible = !text2.visible;
-      }
-
       if (enterKey.isDown) {
           this.select.play();
           backgroundMusic.loop = false;
           backgroundMusic.stop();
-          this.state.start('Directions');
-
+          this.state.start('Level1');
       }
 
     },
