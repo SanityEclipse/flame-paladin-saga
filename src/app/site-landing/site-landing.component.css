@@ -1,5 +1,5 @@
 #contact-thumbnail {
-  border: 2px solid lightblue; 
+  border: 2px solid lightblue;
   background-image: url('assets/gmail-image.png');
   background-size: 150px 150px;
   background-repeat: no-repeat;
@@ -8,6 +8,7 @@
 }
 
 #landing-jumbotron {
+margin-top: 5%; 
 color: white;
 border: 2px solid white;
 background: red; /* For browsers that do not support gradients */
