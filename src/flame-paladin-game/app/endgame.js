@@ -16,6 +16,9 @@ Game.Endgame.prototype = {
       if (name === ""){
         name = "COM";
       }
+      if (score === undefined){
+        score = 0; 
+      }
 
     backgroundMusic = game.add.audio('gameover');
     backgroundMusic.loop = true;
