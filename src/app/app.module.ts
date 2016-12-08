@@ -8,18 +8,20 @@ import { HttpModule } from '@angular/http';
 import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
-import { GameCanvasComponent } from './game-canvas/game-canvas.component';
+import { GameLandingComponent } from './game-landing/game-landing.component';
 import { SiteLandingComponent } from './site-landing/site-landing.component';
 import { ContactInfoComponent } from './contact-info/contact-info.component';
 import { TechUsedComponent } from './tech-used/tech-used.component';
+import { GameCanvasComponent } from './game-canvas/game-canvas.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    GameCanvasComponent,
+    GameLandingComponent,
     SiteLandingComponent,
     ContactInfoComponent,
     TechUsedComponent,
+    GameCanvasComponent,
   ],
   imports: [
     BrowserModule,
