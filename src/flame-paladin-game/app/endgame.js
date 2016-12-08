@@ -2,19 +2,25 @@ Game.Endgame = function(game){}
 
 var backgroundMusic;
 var enterKey;
-var score = 0;
+var score;
 var text7;
 var text8;
 var text9;
-
+var name;
 
 Game.Endgame.prototype = {
 
 
   create: function(game){
+    name = prompt("Please enter your initials for the leaderboard", "");
+      if (name === ""){
+        name = "COM";
+      }
+      if (score === undefined){
+        score = 0; 
+      }
 
-
-    backgroundMusic = game.add.audio('menu');
+    backgroundMusic = game.add.audio('gameover');
     backgroundMusic.loop = true;
     backgroundMusic.play();
 
