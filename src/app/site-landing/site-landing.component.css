@@ -1,8 +1,9 @@
-#bio-thumbnail {
-
-}
-
 #contact-thumbnail {
+  border: 2px solid lightblue; 
+  background-image: url('assets/gmail-image.png');
+  background-size: 150px 150px;
+  background-repeat: no-repeat;
+  background-position: center;
 
 }
 
@@ -19,8 +20,9 @@ background: radial-gradient(red, darkred, black); /* Standard syntax */
 #tech-thumbnail {
 color: white;
 background-image: url('assets/angular-2-image.jpg');
-background-size: 525px 250px;
+background-size: 550px 225px;
 background-repeat: no-repeat;
+background-position: center;
 
 }
 
