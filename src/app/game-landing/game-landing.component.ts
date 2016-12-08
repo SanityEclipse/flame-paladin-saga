@@ -11,6 +11,7 @@ export class GameLandingComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    
   }
 
 }

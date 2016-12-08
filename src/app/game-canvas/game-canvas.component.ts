@@ -19,6 +19,7 @@ export class GameCanvasComponent implements OnInit {
           game.state.add('Boot', Game.Boot);
           game.state.add('Preloader', Game.Preloader);
           game.state.add('Menu', Game.Menu);
+          game.state.add('Directions', Game.Directions);
           game.state.add('Level1', Game.Level1);
             // game.state.add('GameOver', Game.GameOver);
           game.state.start('Boot');

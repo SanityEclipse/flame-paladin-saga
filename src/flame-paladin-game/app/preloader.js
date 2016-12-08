@@ -30,6 +30,7 @@ Game.Preloader.prototype = {
 
       this.load.audio("pressEnter", "flame-paladin-game/assets/sound-effects/menu-select.mp3");
       this.load.audio("fireball-sound", "flame-paladin-game/assets/sound-effects/fireball.mp3");
+      this.load.audio("jump-sound", "flame-paladin-game/assets/sound-effects/jump-sound.mp3");
 
     },
 
