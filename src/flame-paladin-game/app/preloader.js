@@ -35,7 +35,7 @@ Game.Preloader.prototype = {
     },
 
     create: function() {
-      this.state.start('Menu');
+      this.state.start('Endgame');
     },
 
 };
