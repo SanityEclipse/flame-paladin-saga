@@ -1,7 +1,7 @@
 var knex = require('./knex')
 
 function getScore() {
-  return knex('newEntries');
+  return knex('scoreboard');
 }
 function createScore(scoreboard) {
   return getEntries().insert(scoreboard, 'id')

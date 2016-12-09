@@ -4,6 +4,7 @@ exports.up = function(knex, Promise) {
     table.increments();
     table.string('name', [25]);
     table.integer('score');
+  })
 };
 
 exports.down = function(knex, Promise) {
