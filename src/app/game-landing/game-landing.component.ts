@@ -7,12 +7,13 @@ import { Router } from '@angular/router';
   templateUrl: './game-landing.component.html',
   styleUrls: ['./game-landing.component.css']
 })
+
 export class GameLandingComponent implements OnInit {
+
 
   constructor() { }
 
   ngOnInit() {
-
   }
 
 }
