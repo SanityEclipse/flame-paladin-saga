@@ -12,7 +12,7 @@ Game.Preloader.prototype = {
       this.load.setPreloadSprite(this.preloadBar);
 
       this.load.tilemap('myMap', 'flame-paladin-game/assets/maps/level1.json', null, Phaser.Tilemap.TILED_JSON);
-      this.load.image('tileset', 'flame-paladin-game/assets/images/tileset.png');
+      this.load.image('tileset', 'flame-paladin-game/assets/images/bothtilesets.png');
 
       this.load.image('Level_Bg', 'flame-paladin-game/assets/images/background.jpg');
 

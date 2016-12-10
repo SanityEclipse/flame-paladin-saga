@@ -48,7 +48,7 @@ Game.Menu.prototype = {
           this.select.play();
           backgroundMusic.loop = false;
           backgroundMusic.stop();
-          this.state.start('Endgame');
+          this.state.start('Directions');
 
       }
 

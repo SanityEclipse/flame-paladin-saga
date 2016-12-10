@@ -5,3 +5,22 @@ body {
   background: -moz-linear-gradient(right, red, black); /* For Firefox 3.6 to 15 */
   background: linear-gradient(to right, red , black); /* Standard syntax */
 }
+
+#static-header {
+  font-family: 'Press Start 2P', cursive;
+  background-color: black;
+}
+
+#static-header > h1 {
+  margin-left: 21%;
+  color: red;
+}
+
+#sticky-footer {
+  background-color: black;
+  color: red;
+}
+
+#sticky-footer-text {
+  font-family: 'Press Start 2P', cursive;
+}

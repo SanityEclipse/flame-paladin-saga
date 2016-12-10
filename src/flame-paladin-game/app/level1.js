@@ -3,6 +3,7 @@ Game.Level1 = function(game){}
 var background;
 var controls = {};
 var count = 0;
+var enterKey; //will be taken out of live version. Demo puposes only.
 var facing;
 var fireballs;
 var jumpTimer = 0;
@@ -11,6 +12,8 @@ var map;
 var player;
 var playerSpeed = 500;
 var portait;
+var respawn;
+var score = 0;
 var shootTime = 0;
 var text;
 var text1;
@@ -29,6 +32,7 @@ Game.Level1.prototype = {
 
     this.shoot = game.add.audio("fireball-sound");
     this.jumpSound = game.add.audio("jump-sound");
+    this.select = game.add.audio("menu-select");
 
     this.physics.arcade.gravity.y = 1000;
 
@@ -36,21 +40,27 @@ Game.Level1.prototype = {
     backgroundMusic.loop = true;
     backgroundMusic.play();
 
+    respawn= game.add.group();
+
     map = this.add.tilemap('myMap');
-    map.addTilesetImage('level1map', 'tileset');
+    map.addTilesetImage('tileset', 'tileset');
+
 
     backgroundLayer = map.createLayer("Background");
     blockedLayer = map.createLayer("Collision");
-
-
+    objectLayer = map.createLayer("Object Layer 1")
+    backgroundLayer.resizeWorld();
 
     map.setCollisionBetween(1, 1000, true, 'Collision');
 
+    map.setTileIndexCallback(1105, this.getItem, this);
+    map.setTileIndexCallback(1683, this.nextLevel, this, 'Collision');
 
-    backgroundLayer.resizeWorld();
+    map.createFromObjects('Object Layer 1', 1382, '', 0, true, false, respawn)
 
-    player = this.add.sprite(100, 2500, 'player');
+    player = this.add.sprite(0, 0, 'player');
     player.anchor.setTo(0.5, 0.5);
+    this.spawn(); 
 
     player.animations.add('idle', [8, 9], 2, true);
     player.animations.add('jump', [15], 1, true);
@@ -149,8 +159,8 @@ Game.Level1.prototype = {
 
     if (controls.up.isDown && (player.body.onFloor() || player.body.touching.down) && this.time.now > jumpTimer) {
       this.jumpSound.play()
-      player.body.velocity.y = -700;
-      jumpTimer = this.time.now + 750;
+      player.body.velocity.y = -800;
+      jumpTimer = this.time.now + 800;
       player.animations.play('jump');
 
     }
@@ -166,7 +176,34 @@ Game.Level1.prototype = {
     if (player.body.velocity.x == 0 && player.body.velocity.y == 0 && !controls.shoot.isDown){
       player.animations.play('idle');
     }
+    if (enterKey.isDown) {    //this will be removed from the live version.
+        this.select.play();
+        this.camera.flash('#000000');
+        backgroundMusic.loop = false;
+        backgroundMusic.stop();
+        this.state.start('Endgame');
+    }
 
+  },
+
+  spawn: function() {
+    respawn.forEach(function(spawnPoint){
+      player.reset(spawnPoint.x, spawnPoint.y);
+    }, this);
+
+  },
+
+  nextLevel: function() {
+    backgroundMusic.mute = true;
+
+    this.state.start('Endgame', true, false);
+  },
+
+  getItem: function() {
+    console.log("Purple Gem Touched")
+    map.putTile(-1, layer.getTileX(player.x), layer.getTileY(player.y));
+    // this.gold.play();
+    // text.setText("Score:" + (count += 10));
   },
 
   shootFireballRight: function() {

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
+
 @Component({
   selector: 'app-game-landing',
   templateUrl: './game-landing.component.html',
@@ -11,7 +12,7 @@ export class GameLandingComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    
+
   }
 
 }
