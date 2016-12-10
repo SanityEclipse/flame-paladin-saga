@@ -1,3 +1,14 @@
+PurpleGemItem = function (index, game, x, y){
+  this.purpleGem = game.add.sprite(x, y, 'portait');
+  this.purpleGem.name = index.toString();
+  game.physics.enable(this.purpleGem, Phaser.Physics.ARCADE);
+  this.purpleGem.body.immovable = true;
+  this.purpleGem.body.collideWorldBounds = true;
+  this.purpleGem.body.allowGravity = false;
+}
+
+var item1;
+
 Game.Level1 = function(game){}
 
 var background;
@@ -40,11 +51,10 @@ Game.Level1.prototype = {
     backgroundMusic.loop = true;
     backgroundMusic.play();
 
-    respawn= game.add.group();
+    respawn = game.add.group();
 
     map = this.add.tilemap('myMap');
     map.addTilesetImage('tileset', 'tileset');
-
 
     backgroundLayer = map.createLayer("Background");
     blockedLayer = map.createLayer("Collision");
@@ -56,11 +66,11 @@ Game.Level1.prototype = {
     map.setTileIndexCallback(1105, this.getItem, this);
     map.setTileIndexCallback(1683, this.nextLevel, this, 'Collision');
 
-    map.createFromObjects('Object Layer 1', 1382, '', 0, true, false, respawn)
+    map.createFromObjects('Object Layer 1', 1382, '', 0, true, false, respawn); //spawn point
 
     player = this.add.sprite(0, 0, 'player');
     player.anchor.setTo(0.5, 0.5);
-    this.spawn(); 
+    this.spawn(); // spawn function is invoked on player object here
 
     player.animations.add('idle', [8, 9], 2, true);
     player.animations.add('jump', [15], 1, true);
@@ -77,6 +87,8 @@ Game.Level1.prototype = {
       up: this.input.keyboard.addKey(Phaser.Keyboard.W),
       shoot: this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR)
     }
+
+    item1 = new PurpleGemItem(0, game, player.x + 100, player.y - 30);
 
     portait = this.add.sprite(10, 522, 'portait');
     portait.scale.x= 0.5;
@@ -129,11 +141,23 @@ Game.Level1.prototype = {
     text1.fixedToCamera = true;
     text2.fixedToCamera = true;
 
+    // purpleGems = game.add.group();
+    // purpleGems.enableBody = true;
+    // purpleGems.physicsBodyType = Phaser.Physics.ARCADE;
+    // this.purpleGems.body.allowGravity = false;
+    // purpleGems.setAll('body.immovable', true);
+    //
+    // purpleGems.create(player.x + 50, player.y + -20, 'portait');
+    // purpleGems.create(player.x + 100, player.y + -20, 'portait');
+
+
   },
 
   update: function (game) {
 
     this.physics.arcade.collide(player, blockedLayer);
+
+    this.physics.arcade.collide(player, item1.purpleGem, this.collectPurpleGem);
 
     player.body.velocity.x = 0;
 
@@ -183,8 +207,13 @@ Game.Level1.prototype = {
         backgroundMusic.stop();
         this.state.start('Endgame');
     }
+    if (checkOverlap(player, item1.purpleGem)){
+      item1.purpleGem.kill();
+    }
 
   },
+
+
 
   spawn: function() {
     respawn.forEach(function(spawnPoint){
@@ -233,7 +262,8 @@ Game.Level1.prototype = {
 
       }
     }
-  }
+  },
+
 }
 function checkOverlap(spriteA, spriteB) {
   if (spriteA.alive == false || spriteB.alive == false){
