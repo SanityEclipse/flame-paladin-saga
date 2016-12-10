@@ -5,8 +5,34 @@ PurpleGemItem = function (index, game, x, y){
   this.purpleGem.body.immovable = true;
   this.purpleGem.body.collideWorldBounds = true;
   this.purpleGem.body.allowGravity = false;
-}
+},
 
+RedGemItem = function (index, game, x, y){
+  this.redGem = game.add.sprite(x, y, 'portait');
+  this.redGem.name = index.toString();
+  game.physics.enable(this.purpleGem, Phaser.Physics.ARCADE);
+  this.redGem.body.immovable = true;
+  this.redGem.body.collideWorldBounds = true;
+  this.redGem.body.allowGravity = false;
+},
+
+GoldKeyItem = function (index, game, x, y){
+  this.goldKey = game.add.sprite(x, y, 'portait');
+  this.goldKey.name = index.toString();
+  game.physics.enable(this.purpleGem, Phaser.Physics.ARCADE);
+  this.goldKey.body.immovable = true;
+  this.goldKey.body.collideWorldBounds = true;
+  this.goldKey.body.allowGravity = false;
+},
+
+MagicPotionItem = function (index, game, x, y){
+  this.magicPotion = game.add.sprite(x, y, 'portait');
+  this.magicPotion.name = index.toString();
+  game.physics.enable(this.purpleGem, Phaser.Physics.ARCADE);
+  this.magicPotion.body.immovable = true;
+  this.magicPotion.body.collideWorldBounds = true;
+  this.magicPotion.body.allowGravity = false;
+}
 var item1;
 
 Game.Level1 = function(game){}
@@ -140,16 +166,6 @@ Game.Level1.prototype = {
     text.fixedToCamera = true;
     text1.fixedToCamera = true;
     text2.fixedToCamera = true;
-
-    // purpleGems = game.add.group();
-    // purpleGems.enableBody = true;
-    // purpleGems.physicsBodyType = Phaser.Physics.ARCADE;
-    // this.purpleGems.body.allowGravity = false;
-    // purpleGems.setAll('body.immovable', true);
-    //
-    // purpleGems.create(player.x + 50, player.y + -20, 'portait');
-    // purpleGems.create(player.x + 100, player.y + -20, 'portait');
-
 
   },
 
