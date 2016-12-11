@@ -21,12 +21,14 @@ RedGemItem = function (index, game, x, y) {
 },
 
 GoldKeyItem = function (index, game, x, y) {
-  this.goldKey = game.add.sprite(x, y, 'portait');
+  this.goldKey = game.add.sprite(x, y, 'gold-key');
   this.goldKey.name = index.toString();
-  game.physics.enable(this.purpleGem, Phaser.Physics.ARCADE);
+  game.physics.enable(this.goldKey, Phaser.Physics.ARCADE);
   this.goldKey.body.immovable = true;
   this.goldKey.body.collideWorldBounds = true;
   this.goldKey.body.allowGravity = false;
+  this.goldKey.animations.add('shimmer', [0, 1, 2, 3, 4, 5], 5, true);
+  this.goldKey.animations.play('shimmer', 5, true);
 },
 
 MagicPotionItem = function (index, game, x, y) {
@@ -47,17 +49,19 @@ var enterKey; //will be taken out of live version. Demo puposes only.
 var facing = 'right';
 var fireballs;
 var jumpTimer = 0;
+var key = 0;
 var mana = 10;
 var map;
 var player;
 var playerSpeed = 400;
-var portait;
+var portrait;
 var respawn;
 var score = 0;
 var shootTime = 0;
 var text;
 var text1;
 var text2;
+var text3;
 
 Game.Level1.prototype = {
 
@@ -91,9 +95,8 @@ Game.Level1.prototype = {
     objectLayer = map.createLayer("Object Layer 1")
     backgroundLayer.resizeWorld();
 
-    map.setCollisionBetween(1, 1000, true, 'Collision');
+    map.setCollisionBetween(1, 1100, true, 'Collision');
 
-    map.setTileIndexCallback(1105, this.getItem, this);
     map.setTileIndexCallback(1683, this.nextLevel, this, 'Collision');
 
     map.createFromObjects('Object Layer 1', 1, '', 0, true, false, respawn); //spawn point
@@ -119,33 +122,50 @@ Game.Level1.prototype = {
     }
 
     blue0 = new BlueGemItem(0, game, player.x + 100, player.y - 30);
-    blue1 = new BlueGemItem(0, game, player.x + 200, player.y - 30);
-    blue2 = new BlueGemItem(0, game, player.x + 750, player.y - 30);
+    blue1 = new BlueGemItem(0, game, player.x + 215, player.y - 50);
+    blue2 = new BlueGemItem(0, game, player.x + 725, player.y - 50);
     blue3 = new BlueGemItem(0, game, player.x + 425, player.y + 400);
+    blue4 = new BlueGemItem(0, game, player.x + 1550, player.y + -70);
+    blue5= new BlueGemItem(0, game, player.x + 2950, player.y + 275);
+    blue6= new BlueGemItem(0, game, player.x + 2165, player.y + 175);
+
+
 
     red0 = new RedGemItem(0, game, player.x + 0, player.y + 800);
     red1 = new RedGemItem(0, game, player.x + 2492, player.y + -330);
+    red2 = new RedGemItem(0, game, player.x + 2525, player.y + 175);
+
+    key0 = new GoldKeyItem(0, game, player.x + 0, player.y + 400);
+    key1 = new GoldKeyItem(0, game, player.x + 2950, player.y + 650);
 
 
-    portait = this.add.sprite(10, 522, 'portait');
+
+
+    portait = this.add.sprite(5, 5, 'portait');
     portait.scale.x= 0.5;
     portait.scale.y= 0.5;
     portait.fixedToCamera = true;
 
-    text = game.add.text(game.camera.x + 65, game.camera.y + 530, "Score: " + count, {
-      font: '25px Press Start 2P',
+    text = game.add.text(game.camera.x + 65, game.camera.y + 5, "Score: " + count, {
+      font: '20px Press Start 2P',
       fill: '#ffffff',
       align: 'center'
     });
 
-    text1 = game.add.text(game.camera.x + 65, game.camera.y + 560, "Magic: ", {
-      font: '25px Press Start 2P',
+    text1 = game.add.text(game.camera.x + 65, game.camera.y + 25, "Magic: ", {
+      font: '20px Press Start 2P',
       fill: '#ffffff',
       align: 'center'
     });
 
-    text2 = game.add.text(game.camera.x + 240, game.camera.y + 560, mana, {
-      font: '25px Press Start 2P',
+    text2 = game.add.text(game.camera.x + 205, game.camera.y + 25, mana, {
+      font: '20px Press Start 2P',
+      fill: '#ffffff',
+      align: 'center'
+    });
+
+    text3 = game.add.text(game.camera.x + 65, game.camera.y + 45, "Keys: " + key +"/2", {
+      font: '20px Press Start 2P',
       fill: '#ffffff',
       align: 'center'
     });
@@ -177,6 +197,7 @@ Game.Level1.prototype = {
     text.fixedToCamera = true;
     text1.fixedToCamera = true;
     text2.fixedToCamera = true;
+    text3.fixedToCamera = true;
 
   },
 
@@ -184,10 +205,25 @@ Game.Level1.prototype = {
 
     this.physics.arcade.collide(player, blockedLayer);
 
-    this.physics.arcade.collide(player, blue0.blueGem, this.collectBlueGem);
-    this.physics.arcade.collide(player, blue1.blueGem, this.collectBlueGem);
-    this.physics.arcade.collide(player, blue2.blueGem, this.collectBlueGem);
-    this.physics.arcade.collide(player, blue3.blueGem, this.collectBlueGem);
+    this.physics.arcade.collide(player, blue0.blueGem);
+    this.physics.arcade.collide(player, blue1.blueGem);
+    this.physics.arcade.collide(player, blue2.blueGem);
+    this.physics.arcade.collide(player, blue3.blueGem);
+    this.physics.arcade.collide(player, blue4.blueGem);
+    this.physics.arcade.collide(player, blue5.blueGem);
+    this.physics.arcade.collide(player, blue6.blueGem);
+
+
+
+    this.physics.arcade.collide(player, red0.redGem);
+    this.physics.arcade.collide(player, red1.redGem);
+    this.physics.arcade.collide(player, red2.redGem);
+
+
+    this.physics.arcade.collide(player, key0.goldKey);
+    this.physics.arcade.collide(player, key1.goldKey);
+
+
 
 
     player.body.velocity.x = 0;
@@ -259,10 +295,45 @@ Game.Level1.prototype = {
         this.pickupItem.play();
         text.setText("Score: " + (count += 100));
     }
+    if (checkOverlap(player, blue4.blueGem)){
+        blue4.blueGem.kill();
+        this.pickupItem.play();
+        text.setText("Score: " + (count += 100));
+    }
+    if (checkOverlap(player, blue5.blueGem)){
+        blue5.blueGem.kill();
+        this.pickupItem.play();
+        text.setText("Score: " + (count += 100));
+    }
+    if (checkOverlap(player, blue6.blueGem)){
+        blue6.blueGem.kill();
+        this.pickupItem.play();
+        text.setText("Score: " + (count += 100));
+    }
     if (checkOverlap(player, red0.redGem)){
         red0.redGem.kill();
         this.pickupItem.play();
         text.setText("Score: " + (count += 500));
+    }
+    if (checkOverlap(player, red1.redGem)){
+        red1.redGem.kill();
+        this.pickupItem.play();
+        text.setText("Score: " + (count += 500));
+    }
+    if (checkOverlap(player, red2.redGem)){
+        red2.redGem.kill();
+        this.pickupItem.play();
+        text.setText("Score: " + (count += 500));
+    }
+    if (checkOverlap(player, key0.goldKey)){
+        key0.goldKey.kill();
+        this.pickupItem.play();
+        text3.setText("Keys: " + (key += 1) +"/2");
+    }
+    if (checkOverlap(player, key1.goldKey)){
+        key1.goldKey.kill();
+        this.pickupItem.play();
+        text3.setText("Keys: " + (key += 1) +"/2");
     }
 
   },

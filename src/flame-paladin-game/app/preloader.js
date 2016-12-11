@@ -24,6 +24,7 @@ Game.Preloader.prototype = {
       this.load.spritesheet('fire-left', 'flame-paladin-game/assets/images/fireball-left.png', 64, 64);
       this.load.spritesheet('blue-gem', 'flame-paladin-game/assets/images/blue-gem.png', 39, 39);
       this.load.spritesheet('red-gem', 'flame-paladin-game/assets/images/red-gem.png', 39, 39);
+      this.load.spritesheet('gold-key', 'flame-paladin-game/assets/images/key-item.png', 46, 64)
 
 
       this.load.audio("menu", "flame-paladin-game/assets/bg-music/Puzzle-Game-2.mp3");
