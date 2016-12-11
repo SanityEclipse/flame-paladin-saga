@@ -31,13 +31,15 @@ GoldKeyItem = function (index, game, x, y) {
   this.goldKey.animations.play('shimmer', 5, true);
 },
 
-MagicPotionItem = function (index, game, x, y) {
-  this.magicPotion = game.add.sprite(x, y, 'portait');
-  this.magicPotion.name = index.toString();
-  game.physics.enable(this.purpleGem, Phaser.Physics.ARCADE);
-  this.magicPotion.body.immovable = true;
-  this.magicPotion.body.collideWorldBounds = true;
-  this.magicPotion.body.allowGravity = false;
+MagicBeakerItem = function (index, game, x, y) {
+  this.magicBeaker = game.add.sprite(x, y, 'magic-beaker');
+  this.magicBeaker.name = index.toString();
+  game.physics.enable(this.magicBeaker, Phaser.Physics.ARCADE);
+  this.magicBeaker.body.immovable = true;
+  this.magicBeaker.body.collideWorldBounds = true;
+  this.magicBeaker.body.allowGravity = false;
+  this.magicBeaker.animations.add('shimmer', [0, 1, 2, 3, 4, 5, 6, 7, 8], 5, true);
+  this.magicBeaker.animations.play('shimmer', 5, true);
 }
 
 Game.Level1 = function(game){}
@@ -129,14 +131,15 @@ Game.Level1.prototype = {
     blue5= new BlueGemItem(0, game, player.x + 2950, player.y + 275);
     blue6= new BlueGemItem(0, game, player.x + 2165, player.y + 175);
 
-
-
     red0 = new RedGemItem(0, game, player.x + 0, player.y + 800);
     red1 = new RedGemItem(0, game, player.x + 2492, player.y + -330);
     red2 = new RedGemItem(0, game, player.x + 2525, player.y + 175);
 
     key0 = new GoldKeyItem(0, game, player.x + 0, player.y + 400);
     key1 = new GoldKeyItem(0, game, player.x + 2950, player.y + 650);
+
+    magic0 = new MagicBeakerItem(0, game, player.x + 3046, player.y + -94);
+
 
 
 
@@ -213,15 +216,14 @@ Game.Level1.prototype = {
     this.physics.arcade.collide(player, blue5.blueGem);
     this.physics.arcade.collide(player, blue6.blueGem);
 
-
-
     this.physics.arcade.collide(player, red0.redGem);
     this.physics.arcade.collide(player, red1.redGem);
     this.physics.arcade.collide(player, red2.redGem);
 
-
     this.physics.arcade.collide(player, key0.goldKey);
     this.physics.arcade.collide(player, key1.goldKey);
+
+    this.physics.arcade.collide(player, magic0.magicBeaker);
 
 
 
@@ -335,7 +337,11 @@ Game.Level1.prototype = {
         this.pickupItem.play();
         text3.setText("Keys: " + (key += 1) +"/2");
     }
-
+    if (checkOverlap(player, magic0.magicBeaker)){
+        magic0.magicBeaker.kill();
+        this.pickupItem.play();
+        text2.setText(mana += 10);
+    }
   },
 
   spawn: function() {
