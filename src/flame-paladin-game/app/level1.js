@@ -1,22 +1,26 @@
-PurpleGemItem = function (index, game, x, y){
-  this.purpleGem = game.add.sprite(x, y, 'portait');
-  this.purpleGem.name = index.toString();
-  game.physics.enable(this.purpleGem, Phaser.Physics.ARCADE);
-  this.purpleGem.body.immovable = true;
-  this.purpleGem.body.collideWorldBounds = true;
-  this.purpleGem.body.allowGravity = false;
+BlueGemItem = function (index, game, x, y) {
+  this.blueGem = game.add.sprite(x, y, 'blue-gem');
+  this.blueGem.name = index.toString();
+  game.physics.enable(this.blueGem, Phaser.Physics.ARCADE);
+  this.blueGem.body.immovable = true;
+  this.blueGem.body.collideWorldBounds = true;
+  this.blueGem.body.allowGravity = false;
+  this.blueGem.animations.add('shimmer', [0, 1, 2, 3, 4, 5], 5, true);
+  this.blueGem.animations.play('shimmer', 10, true);
 },
 
-RedGemItem = function (index, game, x, y){
-  this.redGem = game.add.sprite(x, y, 'portait');
+RedGemItem = function (index, game, x, y) {
+  this.redGem = game.add.sprite(x, y, 'red-gem');
   this.redGem.name = index.toString();
-  game.physics.enable(this.purpleGem, Phaser.Physics.ARCADE);
+  game.physics.enable(this.redGem, Phaser.Physics.ARCADE);
   this.redGem.body.immovable = true;
   this.redGem.body.collideWorldBounds = true;
   this.redGem.body.allowGravity = false;
+  this.redGem.animations.add('shimmer', [0, 1, 2, 3, 4, 5], 5, true);
+  this.redGem.animations.play('shimmer', 10, true);
 },
 
-GoldKeyItem = function (index, game, x, y){
+GoldKeyItem = function (index, game, x, y) {
   this.goldKey = game.add.sprite(x, y, 'portait');
   this.goldKey.name = index.toString();
   game.physics.enable(this.purpleGem, Phaser.Physics.ARCADE);
@@ -25,7 +29,7 @@ GoldKeyItem = function (index, game, x, y){
   this.goldKey.body.allowGravity = false;
 },
 
-MagicPotionItem = function (index, game, x, y){
+MagicPotionItem = function (index, game, x, y) {
   this.magicPotion = game.add.sprite(x, y, 'portait');
   this.magicPotion.name = index.toString();
   game.physics.enable(this.purpleGem, Phaser.Physics.ARCADE);
@@ -33,7 +37,6 @@ MagicPotionItem = function (index, game, x, y){
   this.magicPotion.body.collideWorldBounds = true;
   this.magicPotion.body.allowGravity = false;
 }
-var item1;
 
 Game.Level1 = function(game){}
 
@@ -41,13 +44,13 @@ var background;
 var controls = {};
 var count = 0;
 var enterKey; //will be taken out of live version. Demo puposes only.
-var facing;
+var facing = 'right';
 var fireballs;
 var jumpTimer = 0;
 var mana = 10;
 var map;
 var player;
-var playerSpeed = 500;
+var playerSpeed = 400;
 var portait;
 var respawn;
 var score = 0;
@@ -70,8 +73,9 @@ Game.Level1.prototype = {
     this.shoot = game.add.audio("fireball-sound");
     this.jumpSound = game.add.audio("jump-sound");
     this.select = game.add.audio("menu-select");
+    this.pickupItem = game.add.audio("pickup-item")
 
-    this.physics.arcade.gravity.y = 1000;
+    this.physics.arcade.gravity.y = 1400;
 
     backgroundMusic = game.add.audio('level1');
     backgroundMusic.loop = true;
@@ -80,7 +84,7 @@ Game.Level1.prototype = {
     respawn = game.add.group();
 
     map = this.add.tilemap('myMap');
-    map.addTilesetImage('tileset', 'tileset');
+    map.addTilesetImage('reducedtileset', 'tileset');
 
     backgroundLayer = map.createLayer("Background");
     blockedLayer = map.createLayer("Collision");
@@ -92,7 +96,7 @@ Game.Level1.prototype = {
     map.setTileIndexCallback(1105, this.getItem, this);
     map.setTileIndexCallback(1683, this.nextLevel, this, 'Collision');
 
-    map.createFromObjects('Object Layer 1', 1382, '', 0, true, false, respawn); //spawn point
+    map.createFromObjects('Object Layer 1', 1, '', 0, true, false, respawn); //spawn point
 
     player = this.add.sprite(0, 0, 'player');
     player.anchor.setTo(0.5, 0.5);
@@ -114,7 +118,14 @@ Game.Level1.prototype = {
       shoot: this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR)
     }
 
-    item1 = new PurpleGemItem(0, game, player.x + 100, player.y - 30);
+    blue0 = new BlueGemItem(0, game, player.x + 100, player.y - 30);
+    blue1 = new BlueGemItem(0, game, player.x + 200, player.y - 30);
+    blue2 = new BlueGemItem(0, game, player.x + 750, player.y - 30);
+    blue3 = new BlueGemItem(0, game, player.x + 425, player.y + 400);
+
+    red0 = new RedGemItem(0, game, player.x + 0, player.y + 800);
+    red1 = new RedGemItem(0, game, player.x + 2492, player.y + -330);
+
 
     portait = this.add.sprite(10, 522, 'portait');
     portait.scale.x= 0.5;
@@ -173,17 +184,21 @@ Game.Level1.prototype = {
 
     this.physics.arcade.collide(player, blockedLayer);
 
-    this.physics.arcade.collide(player, item1.purpleGem, this.collectPurpleGem);
+    this.physics.arcade.collide(player, blue0.blueGem, this.collectBlueGem);
+    this.physics.arcade.collide(player, blue1.blueGem, this.collectBlueGem);
+    this.physics.arcade.collide(player, blue2.blueGem, this.collectBlueGem);
+    this.physics.arcade.collide(player, blue3.blueGem, this.collectBlueGem);
+
 
     player.body.velocity.x = 0;
 
     if (controls.right.isDown) {
       if (player.body.onFloor() || player.body.touching.down) {
         player.animations.play('run');
-      }
-      player.scale.setTo(1, 1);
-      player.body.velocity.x += playerSpeed;
-      facing = 'right';
+        }
+        player.scale.setTo(1, 1);
+        player.body.velocity.x += playerSpeed;
+        facing = 'right';
 
     }
 
@@ -199,8 +214,8 @@ Game.Level1.prototype = {
 
     if (controls.up.isDown && (player.body.onFloor() || player.body.touching.down) && this.time.now > jumpTimer) {
       this.jumpSound.play()
-      player.body.velocity.y = -800;
-      jumpTimer = this.time.now + 800;
+      player.body.velocity.y = -625;
+      jumpTimer = this.time.now + 675;
       player.animations.play('jump');
 
     }
@@ -223,16 +238,37 @@ Game.Level1.prototype = {
         backgroundMusic.stop();
         this.state.start('Endgame');
     }
-    if (checkOverlap(player, item1.purpleGem)){
-      item1.purpleGem.kill();
+
+    if (checkOverlap(player, blue0.blueGem)){
+        blue0.blueGem.kill();
+        this.pickupItem.play();
+        text.setText("Score: " + (count += 100));
+    }
+    if (checkOverlap(player, blue1.blueGem)){
+        blue1.blueGem.kill();
+        this.pickupItem.play();
+        text.setText("Score: " + (count += 100));
+    }
+    if (checkOverlap(player, blue2.blueGem)){
+        blue2.blueGem.kill();
+        this.pickupItem.play();
+        text.setText("Score: " + (count += 100));
+    }
+    if (checkOverlap(player, blue3.blueGem)){
+        blue3.blueGem.kill();
+        this.pickupItem.play();
+        text.setText("Score: " + (count += 100));
+    }
+    if (checkOverlap(player, red0.redGem)){
+        red0.redGem.kill();
+        this.pickupItem.play();
+        text.setText("Score: " + (count += 500));
     }
 
   },
 
-
-
   spawn: function() {
-    respawn.forEach(function(spawnPoint){
+    respawn.forEach(function(spawnPoint) {
       player.reset(spawnPoint.x, spawnPoint.y);
     }, this);
 
@@ -240,15 +276,7 @@ Game.Level1.prototype = {
 
   nextLevel: function() {
     backgroundMusic.mute = true;
-
     this.state.start('Endgame', true, false);
-  },
-
-  getItem: function() {
-    console.log("Purple Gem Touched")
-    map.putTile(-1, layer.getTileX(player.x), layer.getTileY(player.y));
-    // this.gold.play();
-    // text.setText("Score:" + (count += 10));
   },
 
   shootFireballRight: function() {
