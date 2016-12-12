@@ -8,7 +8,7 @@ Enemybat = function(index, game, x, y) {
   this.bat.body.allowGravity = false;
   this.batTween = game.add.tween(this.bat).to({
       y: this.bat.y + 100
-  }, 2000, 'Linear', true, 0, -1, true);
+  }, 1000, 'Linear', true, 0, -1, true);
   this.bat.animations.add('fly', [0, 1, 2, 3, 4, 5], 7, true);
   this.bat.animations.play('fly', 7, true);
 },
@@ -58,23 +58,24 @@ MagicBeakerItem = function (index, game, x, y) {
 }
 
 var enemy0;
+var enemy1;
 
 Game.Level1 = function(game){}
 
 var background;
 var controls = {};
 var enterKey; //will be taken out of live version. Demo puposes only.
+// var fireballCollisions;
 var facing = 'right';
 var fireballs;
-var fireballCollision;
-var health = 1;
+// var fireballCollision;
+var health = 10;
 var jumpTimer = 0;
 var key = 0;
 var mana = 10;
 var map;
 var player;
 var playerSpeed = 400;
-var portrait;
 var respawn;
 var score = 0;
 var shootTime = 0;
@@ -148,8 +149,8 @@ Game.Level1.prototype = {
     blue2 = new BlueGemItem(0, game, player.x + 725, player.y - 50);
     blue3 = new BlueGemItem(0, game, player.x + 425, player.y + 400);
     blue4 = new BlueGemItem(0, game, player.x + 1550, player.y + -70);
-    blue5= new BlueGemItem(0, game, player.x + 2950, player.y + 275);
-    blue6= new BlueGemItem(0, game, player.x + 2165, player.y + 175);
+    blue5 = new BlueGemItem(0, game, player.x + 2950, player.y + 275);
+    blue6 = new BlueGemItem(0, game, player.x + 2165, player.y + 175);
 
     red0 = new RedGemItem(0, game, player.x + 0, player.y + 800);
     red1 = new RedGemItem(0, game, player.x + 2492, player.y + -330);
@@ -160,12 +161,13 @@ Game.Level1.prototype = {
 
     magic0 = new MagicBeakerItem(0, game, player.x + 3046, player.y + -94);
 
-    enemy0 = new Enemybat(0, game, player.x + 300, player.y - 75);
+    enemy0 = new Enemybat(0, game, player.x + 260, player.y - 75);
+    enemy1 = new Enemybat(0, game, player.x + 475, player.y - 75);
 
-    portait = this.add.sprite(5, 5, 'portait');
-    portait.scale.x= 0.5;
-    portait.scale.y= 0.5;
-    portait.fixedToCamera = true;
+    var portait = this.add.sprite(5, 5, 'portait');
+        portait.scale.x= 0.5;
+        portait.scale.y= 0.5;
+        portait.fixedToCamera = true;
 
     text0 = game.add.text(game.camera.x + 65, game.camera.y + 5, "Score: " + score, {
       font: '20px Press Start 2P',
@@ -232,33 +234,23 @@ Game.Level1.prototype = {
     if (health <= 0){
       backgroundMusic.mute = true;
       this.state.start('Endgame', true, false);
-      health = 1;
+      health = 10;
 
     }
 
     this.physics.arcade.collide(player, blockedLayer);
 
-    this.physics.arcade.collide(player, blue0.blueGem);
-    this.physics.arcade.collide(player, blue1.blueGem);
-    this.physics.arcade.collide(player, blue2.blueGem);
-    this.physics.arcade.collide(player, blue3.blueGem);
-    this.physics.arcade.collide(player, blue4.blueGem);
-    this.physics.arcade.collide(player, blue5.blueGem);
-    this.physics.arcade.collide(player, blue6.blueGem);
+    this.physics.arcade.collide(player, [blue0.blueGem, blue1.blueGem, blue2.blueGem, blue3.blueGem, blue4.blueGem, blue5.blueGem, blue6.blueGem]);
+    this.physics.arcade.collide(player, [red0.redGem, red1.redGem, red2.redGem]);
+    this.physics.arcade.collide(player, [key0.goldKey, key1.goldKey]);
+    this.physics.arcade.collide(player, [magic0.magicBeaker]);
 
-    this.physics.arcade.collide(player, red0.redGem);
-    this.physics.arcade.collide(player, red1.redGem);
-    this.physics.arcade.collide(player, red2.redGem);
+    this.physics.arcade.collide(player, [enemy0.bat, enemy1.bat], this.playerDamage);
 
-    this.physics.arcade.collide(player, key0.goldKey);
-    this.physics.arcade.collide(player, key1.goldKey);
-
-    this.physics.arcade.collide(player, magic0.magicBeaker);
-
-    this.physics.arcade.collide(player, enemy0.bat, this.playerDamage);
-
-
-
+    this.physics.arcade.overlap(fireballsRight, enemy0.bat, this.collisionHandler, null, this);
+    this.physics.arcade.overlap(fireballsLeft, enemy0.bat, this.collisionHandler, null, this);
+    this.physics.arcade.overlap(fireballsRight, enemy1.bat, this.collisionHandler1, null, this);
+    this.physics.arcade.overlap(fireballsLeft, enemy1.bat, this.collisionHandler1, null, this);
 
     player.body.velocity.x = 0;
 
@@ -307,18 +299,6 @@ Game.Level1.prototype = {
         backgroundMusic.loop = false;
         backgroundMusic.stop();
         this.state.start('Endgame');
-    }
-    //ENEMY FIREBALL COLLISIONS
-
-    if (checkOverlap(enemy0.bat, fireballsRight) || (checkOverlap(fireballsLeft, enemy0.bat))) {
-        fireballCollision = fireballCollision.getFirstExists(false);
-        fireballCollision.reset(fireball.body.x + fireball.body.halfWidth, fireball.body.y + fireball.body.halfHeight);
-        fireballCollision.body.velocity.y = enemy0.bat.body.velocity.y;
-        fireballCollision.alpha = 0.7;
-        fireballCollision.animations.play('big-fireball-collision', 10, false, true);
-        fireball.kill();
-        enemy0.bat.kill();
-        text0.setText("Score: " + (score += 50));
     }
 
     // ITEM COLLSIONS
@@ -391,11 +371,27 @@ Game.Level1.prototype = {
 
   },
 
+  collisionHandler: function() {
+    // fireballCollision = fireballCollisions.getFirstExists(false);
+    // fireballCollision.reset(fireball.body.x + fireball.body.halfWidth, fireball.body.y + fireball.body.halfHeight);
+    // fireballCollision.animations.play('big-fireball-collision', 10, false, true);
+    fireball.kill();
+    enemy0.bat.kill();
+    text0.setText("Score: " + (score += 50));
+  },
+  collisionHandler1: function() {
+    // fireballCollision = fireballCollision.getFirstExists(false);
+    // fireballCollision.reset(fireball.body.x + fireball.body.halfWidth, fireball.body.y + fireball.body.halfHeight);
+    // fireballCollision.animations.play('big-fireball-collision', 10, false, true);
+    fireball.kill();
+    enemy1.bat.kill();
+    text0.setText("Score: " + (score += 50));
+  },
+
   spawn: function() {
     respawn.forEach(function(spawnPoint) {
       player.reset(spawnPoint.x, spawnPoint.y);
     }, this);
-
   },
 
   nextLevel: function() {
@@ -408,20 +404,6 @@ Game.Level1.prototype = {
     player.animations.stop();
     player.animations.frame = 2;
     player.body.velocity.y = -750;
-  },
-
-  shootFireballRight: function() {
-    if (this.time.now > shootTime) {
-      shootTime = this.time.now + 800;
-      fireball = fireballsRight.getFirstExists(false);
-      if (fireball) {
-          this.shoot.play();
-          fireball.reset(player.x, player.y);
-          player.animations.play('shoot-fireball-right');
-          fireball.body.velocity.x = 800;
-          text1.setText("HP:" + health + " MP:" + (mana -= 1));
-      }
-    }
   },
 
   shootFireballLeft: function() {
@@ -438,6 +420,21 @@ Game.Level1.prototype = {
       }
     }
   },
+  shootFireballRight: function() {
+    if (this.time.now > shootTime) {
+      shootTime = this.time.now + 800;
+      fireball = fireballsRight.getFirstExists(false);
+      if (fireball) {
+          this.shoot.play();
+          fireball.reset(player.x, player.y);
+          player.animations.play('shoot-fireball-right');
+          fireball.body.velocity.x = 800;
+          text1.setText("HP:" + health + " MP:" + (mana -= 1));
+
+      }
+    }
+  },
+
 
 }
 function checkOverlap(spriteA, spriteB) {
