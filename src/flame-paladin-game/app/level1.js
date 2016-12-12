@@ -63,11 +63,11 @@ Game.Level1 = function(game){}
 
 var background;
 var controls = {};
-var count = 0;
 var enterKey; //will be taken out of live version. Demo puposes only.
 var facing = 'right';
 var fireballs;
 var fireballCollision;
+var health = 1;
 var jumpTimer = 0;
 var key = 0;
 var mana = 10;
@@ -134,7 +134,7 @@ Game.Level1.prototype = {
     this.camera.follow(player);
     this.physics.arcade.enable(player);
     player.body.collideWorldBounds = true;
-    player.body.setSize(player.width * 2 / 3, player.height * 95 / 100); //only adjusting width. Added both for future adjustments.
+    player.body.setSize(player.width * 2 / 3, player.height * 95 / 100);
 
     controls = {
       right: this.input.keyboard.addKey(Phaser.Keyboard.D),
@@ -167,19 +167,13 @@ Game.Level1.prototype = {
     portait.scale.y= 0.5;
     portait.fixedToCamera = true;
 
-    text0 = game.add.text(game.camera.x + 65, game.camera.y + 5, "Score: " + count, {
+    text0 = game.add.text(game.camera.x + 65, game.camera.y + 5, "Score: " + score, {
       font: '20px Press Start 2P',
       fill: '#ffffff',
       align: 'center'
     });
 
-    text1 = game.add.text(game.camera.x + 65, game.camera.y + 25, "Magic: ", {
-      font: '20px Press Start 2P',
-      fill: '#ffffff',
-      align: 'center'
-    });
-
-    text2 = game.add.text(game.camera.x + 205, game.camera.y + 25, mana, {
+    text1 = game.add.text(game.camera.x + 65, game.camera.y + 25, "HP:" + health + " MP:" + mana, {
       font: '20px Press Start 2P',
       fill: '#ffffff',
       align: 'center'
@@ -235,9 +229,14 @@ Game.Level1.prototype = {
 
   update: function (game) {
 
-    this.physics.arcade.collide(player, blockedLayer);
+    if (health <= 0){
+      backgroundMusic.mute = true;
+      this.state.start('Endgame', true, false);
+      health = 1;
 
-    this.physics.arcade.collide(player, enemy0.bat);
+    }
+
+    this.physics.arcade.collide(player, blockedLayer);
 
     this.physics.arcade.collide(player, blue0.blueGem);
     this.physics.arcade.collide(player, blue1.blueGem);
@@ -255,6 +254,8 @@ Game.Level1.prototype = {
     this.physics.arcade.collide(player, key1.goldKey);
 
     this.physics.arcade.collide(player, magic0.magicBeaker);
+
+    this.physics.arcade.collide(player, enemy0.bat, this.playerDamage);
 
 
 
@@ -286,7 +287,6 @@ Game.Level1.prototype = {
       player.body.velocity.y = -625;
       jumpTimer = this.time.now + 675;
       player.animations.play('jump');
-
     }
 
     if (controls.shoot.isDown && facing == 'right' && mana > 0) {
@@ -308,7 +308,7 @@ Game.Level1.prototype = {
         backgroundMusic.stop();
         this.state.start('Endgame');
     }
-    //ENEMY COLLISIONS
+    //ENEMY FIREBALL COLLISIONS
 
     if (checkOverlap(enemy0.bat, fireballsRight) || (checkOverlap(fireballsLeft, enemy0.bat))) {
         fireballCollision = fireballCollision.getFirstExists(false);
@@ -318,7 +318,7 @@ Game.Level1.prototype = {
         fireballCollision.animations.play('big-fireball-collision', 10, false, true);
         fireball.kill();
         enemy0.bat.kill();
-        text0.setText("Score: " + (count += 50));
+        text0.setText("Score: " + (score += 50));
     }
 
     // ITEM COLLSIONS
@@ -326,52 +326,52 @@ Game.Level1.prototype = {
     if (checkOverlap(player, blue0.blueGem)){
         blue0.blueGem.kill();
         this.pickupItem.play();
-        text0.setText("Score: " + (count += 100));
+        text0.setText("Score: " + (score += 100));
     }
     if (checkOverlap(player, blue1.blueGem)){
         blue1.blueGem.kill();
         this.pickupItem.play();
-        text0.setText("Score: " + (count += 100));
+        text0.setText("Score: " + (score += 100));
     }
     if (checkOverlap(player, blue2.blueGem)){
         blue2.blueGem.kill();
         this.pickupItem.play();
-        text0.setText("Score: " + (count += 100));
+        text0.setText("Score: " + (score += 100));
     }
     if (checkOverlap(player, blue3.blueGem)){
         blue3.blueGem.kill();
         this.pickupItem.play();
-        text0.setText("Score: " + (count += 100));
+        text0.setText("Score: " + (score += 100));
     }
     if (checkOverlap(player, blue4.blueGem)){
         blue4.blueGem.kill();
         this.pickupItem.play();
-        text0.setText("Score: " + (count += 100));
+        text0.setText("Score: " + (score += 100));
     }
     if (checkOverlap(player, blue5.blueGem)){
         blue5.blueGem.kill();
         this.pickupItem.play();
-        text0.setText("Score: " + (count += 100));
+        text0.setText("Score: " + (score += 100));
     }
     if (checkOverlap(player, blue6.blueGem)){
         blue6.blueGem.kill();
         this.pickupItem.play();
-        text0.setText("Score: " + (count += 100));
+        text0.setText("Score: " + (score += 100));
     }
     if (checkOverlap(player, red0.redGem)){
         red0.redGem.kill();
         this.pickupItem.play();
-        text0.setText("Score: " + (count += 500));
+        text0.setText("Score: " + (score += 500));
     }
     if (checkOverlap(player, red1.redGem)){
         red1.redGem.kill();
         this.pickupItem.play();
-        text0.setText("Score: " + (count += 500));
+        text0.setText("Score: " + (score += 500));
     }
     if (checkOverlap(player, red2.redGem)){
         red2.redGem.kill();
         this.pickupItem.play();
-        text0.setText("Score: " + (count += 500));
+        text0.setText("Score: " + (score += 500));
     }
     if (checkOverlap(player, key0.goldKey)){
         key0.goldKey.kill();
@@ -386,7 +386,7 @@ Game.Level1.prototype = {
     if (checkOverlap(player, magic0.magicBeaker)){
         magic0.magicBeaker.kill();
         this.pickupItem.play();
-        text2.setText(mana += 10);
+        text1.setText("HP:" + health + " MP:" + (mana += 10));
     }
 
   },
@@ -403,6 +403,13 @@ Game.Level1.prototype = {
     this.state.start('Endgame', true, false);
   },
 
+  playerDamage: function() {
+    text1.setText("HP:" + (health -= 1) + " MP:" + mana);
+    player.animations.stop();
+    player.animations.frame = 2;
+    player.body.velocity.y = -750;
+  },
+
   shootFireballRight: function() {
     if (this.time.now > shootTime) {
       shootTime = this.time.now + 800;
@@ -412,7 +419,7 @@ Game.Level1.prototype = {
           fireball.reset(player.x, player.y);
           player.animations.play('shoot-fireball-right');
           fireball.body.velocity.x = 800;
-          text2.setText(mana -= 1);
+          text1.setText("HP:" + health + " MP:" + (mana -= 1));
       }
     }
   },
@@ -426,7 +433,7 @@ Game.Level1.prototype = {
           fireball.reset(player.x, player.y);
           player.animations.play('shoot-fireball-left');
           fireball.body.velocity.x = -800;
-          text2.setText(mana -= 1);
+          text1.setText("HP:" + health + " MP:" + (mana -= 1));
 
       }
     }

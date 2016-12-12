@@ -17,7 +17,7 @@ Game.Endgame.prototype = {
         name = "COM";
       }
       if (score === undefined){
-        score = 0; 
+        score = 0;
       }
 
     backgroundMusic = game.add.audio('gameover');
@@ -49,6 +49,7 @@ Game.Endgame.prototype = {
 
 
       if (enterKey.isDown) {
+          score = 0; 
           this.select.play();
           backgroundMusic.loop = false;
           backgroundMusic.stop();
