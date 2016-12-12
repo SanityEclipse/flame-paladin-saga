@@ -2,29 +2,29 @@ BlueGemItem = function (index, game, x, y) {
   this.blueGem = game.add.sprite(x, y, 'blue-gem');
   this.blueGem.name = index.toString();
   game.physics.enable(this.blueGem, Phaser.Physics.ARCADE);
-  this.blueGem.body.immovable = true;
+  this.blueGem.body.immovable = false;
   this.blueGem.body.collideWorldBounds = true;
   this.blueGem.body.allowGravity = false;
   this.blueGem.animations.add('shimmer', [0, 1, 2, 3, 4, 5], 5, true);
-  this.blueGem.animations.play('shimmer', 10, true);
+  this.blueGem.animations.play('shimmer', 5, true);
 },
 
 RedGemItem = function (index, game, x, y) {
   this.redGem = game.add.sprite(x, y, 'red-gem');
   this.redGem.name = index.toString();
   game.physics.enable(this.redGem, Phaser.Physics.ARCADE);
-  this.redGem.body.immovable = true;
+  this.redGem.body.immovable = false;
   this.redGem.body.collideWorldBounds = true;
   this.redGem.body.allowGravity = false;
   this.redGem.animations.add('shimmer', [0, 1, 2, 3, 4, 5], 5, true);
-  this.redGem.animations.play('shimmer', 10, true);
+  this.redGem.animations.play('shimmer', 5, true);
 },
 
 GoldKeyItem = function (index, game, x, y) {
   this.goldKey = game.add.sprite(x, y, 'gold-key');
   this.goldKey.name = index.toString();
   game.physics.enable(this.goldKey, Phaser.Physics.ARCADE);
-  this.goldKey.body.immovable = true;
+  this.goldKey.body.immovable = false;
   this.goldKey.body.collideWorldBounds = true;
   this.goldKey.body.allowGravity = false;
   this.goldKey.animations.add('shimmer', [0, 1, 2, 3, 4, 5], 5, true);
@@ -35,7 +35,7 @@ MagicBeakerItem = function (index, game, x, y) {
   this.magicBeaker = game.add.sprite(x, y, 'magic-beaker');
   this.magicBeaker.name = index.toString();
   game.physics.enable(this.magicBeaker, Phaser.Physics.ARCADE);
-  this.magicBeaker.body.immovable = true;
+  this.magicBeaker.body.immovable = false;
   this.magicBeaker.body.collideWorldBounds = true;
   this.magicBeaker.body.allowGravity = false;
   this.magicBeaker.animations.add('shimmer', [0, 1, 2, 3, 4, 5, 6, 7, 8], 5, true);
@@ -60,7 +60,7 @@ var portrait;
 var respawn;
 var score = 0;
 var shootTime = 0;
-var text;
+var text0;
 var text1;
 var text2;
 var text3;
@@ -115,6 +115,7 @@ Game.Level1.prototype = {
     this.camera.follow(player);
     this.physics.arcade.enable(player);
     player.body.collideWorldBounds = true;
+    player.body.setSize(player.width * 2 / 3, player.height * 95 / 100); //only adjusting width. Added both for future adjustments.
 
     controls = {
       right: this.input.keyboard.addKey(Phaser.Keyboard.D),
@@ -141,15 +142,12 @@ Game.Level1.prototype = {
     magic0 = new MagicBeakerItem(0, game, player.x + 3046, player.y + -94);
 
 
-
-
-
     portait = this.add.sprite(5, 5, 'portait');
     portait.scale.x= 0.5;
     portait.scale.y= 0.5;
     portait.fixedToCamera = true;
 
-    text = game.add.text(game.camera.x + 65, game.camera.y + 5, "Score: " + count, {
+    text0 = game.add.text(game.camera.x + 65, game.camera.y + 5, "Score: " + count, {
       font: '20px Press Start 2P',
       fill: '#ffffff',
       align: 'center'
@@ -197,7 +195,7 @@ Game.Level1.prototype = {
     fireballsLeft.callAll('animations.add', 'animations', 'fire-left', [0, 1, 2, 3, 4], 5, true);
     fireballsLeft.callAll('play', null, 'fireball-sound');
 
-    text.fixedToCamera = true;
+    text0.fixedToCamera = true;
     text1.fixedToCamera = true;
     text2.fixedToCamera = true;
     text3.fixedToCamera = true;
@@ -280,52 +278,52 @@ Game.Level1.prototype = {
     if (checkOverlap(player, blue0.blueGem)){
         blue0.blueGem.kill();
         this.pickupItem.play();
-        text.setText("Score: " + (count += 100));
+        text0.setText("Score: " + (count += 100));
     }
     if (checkOverlap(player, blue1.blueGem)){
         blue1.blueGem.kill();
         this.pickupItem.play();
-        text.setText("Score: " + (count += 100));
+        text0.setText("Score: " + (count += 100));
     }
     if (checkOverlap(player, blue2.blueGem)){
         blue2.blueGem.kill();
         this.pickupItem.play();
-        text.setText("Score: " + (count += 100));
+        text0.setText("Score: " + (count += 100));
     }
     if (checkOverlap(player, blue3.blueGem)){
         blue3.blueGem.kill();
         this.pickupItem.play();
-        text.setText("Score: " + (count += 100));
+        text0.setText("Score: " + (count += 100));
     }
     if (checkOverlap(player, blue4.blueGem)){
         blue4.blueGem.kill();
         this.pickupItem.play();
-        text.setText("Score: " + (count += 100));
+        text0.setText("Score: " + (count += 100));
     }
     if (checkOverlap(player, blue5.blueGem)){
         blue5.blueGem.kill();
         this.pickupItem.play();
-        text.setText("Score: " + (count += 100));
+        text0.setText("Score: " + (count += 100));
     }
     if (checkOverlap(player, blue6.blueGem)){
         blue6.blueGem.kill();
         this.pickupItem.play();
-        text.setText("Score: " + (count += 100));
+        text0.setText("Score: " + (count += 100));
     }
     if (checkOverlap(player, red0.redGem)){
         red0.redGem.kill();
         this.pickupItem.play();
-        text.setText("Score: " + (count += 500));
+        text0.setText("Score: " + (count += 500));
     }
     if (checkOverlap(player, red1.redGem)){
         red1.redGem.kill();
         this.pickupItem.play();
-        text.setText("Score: " + (count += 500));
+        text0.setText("Score: " + (count += 500));
     }
     if (checkOverlap(player, red2.redGem)){
         red2.redGem.kill();
         this.pickupItem.play();
-        text.setText("Score: " + (count += 500));
+        text0.setText("Score: " + (count += 500));
     }
     if (checkOverlap(player, key0.goldKey)){
         key0.goldKey.kill();
