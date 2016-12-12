@@ -52,6 +52,6 @@ Game.Menu.prototype = {
 
       }
 
-    },
+    }
 
 };

@@ -63,7 +63,6 @@ var enemy1;
 
 Game.Level1 = function(game){}
 
-var background;
 var controls = {};
 var enterKey; //will be taken out of live version. Demo puposes only.
 // var fireballCollisions;
@@ -91,10 +90,10 @@ Game.Level1.prototype = {
 
     this.camera.flash('#000000');
 
-    background = this.add.image(0, 0, "Level_Bg");
-    background.width = game.width;
-    background.height = game.height;
-    background.fixedToCamera = true;
+    var background = this.add.image(0, 0, "Level_Bg");
+        background.width = game.width;
+        background.height = game.height;
+        background.fixedToCamera = true;
 
     this.shoot = game.add.audio("fireball-sound");
     this.jumpSound = game.add.audio("jump-sound");
