@@ -9,6 +9,7 @@ Enemybat = function(index, game, x, y) {
   this.batTween = game.add.tween(this.bat).to({
       y: this.bat.y + 100
   }, 1000, 'Linear', true, 0, -1, true);
+  this.bat.body.setSize(this.bat.width * 1 / 4, this.bat.height * 1 / 2)
   this.bat.animations.add('fly', [0, 1, 2, 3, 4, 5], 7, true);
   this.bat.animations.play('fly', 7, true);
 },
@@ -196,6 +197,7 @@ Game.Level1.prototype = {
     fireballsRight.setAll('outOfBoundsKill', true);
     fireballsRight.setAll('checkWorldBounds', true);
     fireballsRight.setAll('body.allowGravity', false);
+    fireballsRight.setAll('body.setSize', fireballsRight.width * 1 / 2, fireballsRight.height * 1 / 2);
     fireballsRight.callAll('animations.add', 'animations', 'fire-right', [0, 1, 2, 3, 4], 5, true);
     fireballsRight.callAll('play', null, 'fireball-sound');
 
