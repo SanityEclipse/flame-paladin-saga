@@ -9,7 +9,7 @@ Game.Boot.prototype = {
     },
 
     preload: function() {
-        this.load.image('preloaderBar', 'flame-paladin-game/assets/images/load-bar.png')
+        this.load.image('preloaderBar', 'flame-paladin-game/assets/images/world/load-bar.png')
     },
     create: function() {
         this.state.start('Preloader')

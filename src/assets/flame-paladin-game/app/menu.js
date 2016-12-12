@@ -1,26 +1,18 @@
-Game.Endgame = function(game){}
+Game.Menu= function(game){}
 
 var backgroundMusic;
 var enterKey;
-var score;
-var text7;
-var text8;
-var text9;
-var name;
+var timer = 0;
+var text;
+var text2;
+var text3;
 
-Game.Endgame.prototype = {
 
+Game.Menu.prototype = {
 
   create: function(game){
-    name = prompt("Please enter your initials for the leaderboard", "");
-      if (name === ""){
-        name = "COM";
-      }
-      if (score === undefined){
-        score = 0; 
-      }
 
-    backgroundMusic = game.add.audio('gameover');
+    backgroundMusic = game.add.audio('menu');
     backgroundMusic.loop = true;
     backgroundMusic.play();
 
@@ -32,30 +24,34 @@ Game.Endgame.prototype = {
     var style2 = {
       font: "28px Press Start 2P", fill: "#99ccff", boundsAlignH: "center", boundsAlignV: "middle" };
 
-    text7 = game.add.text(250, 100, "Game Over, \n\n   " + name, style);
+    text = game.add.text(0, 0, "The Last Flame Paladin II", style);
+    text.setTextBounds(0, 100, 800, 100);
 
-    text8 = game.add.text(100, 300, "Your final Score is " + score, style);
+    text2 = game.add.text(225, 500, "PRESS ENTER", style);
 
-    text9 = game.add.text(250, 500, "PRESS ENTER", style);
+    text3 = game.add.text(215, 350, '-Demo Build-', style2);
 
     enterKey = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
-
-
 
     },
 
 
   update: function(game) {
 
+    timer += game.time.elapsed;
+      if (timer >= 500) {
+        timer -= 500;
+        text2.visible = !text2.visible;
+      }
 
       if (enterKey.isDown) {
           this.select.play();
           backgroundMusic.loop = false;
           backgroundMusic.stop();
-          this.state.start('Menu');
+          this.state.start('Directions');
 
       }
 
-    },
+    }
 
 };
