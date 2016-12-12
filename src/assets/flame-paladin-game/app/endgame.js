@@ -51,18 +51,19 @@ Game.Endgame.prototype = {
 
       else if (event.keyCode === 13){
         // ENTER KEY
+        game.input.keyboard.onDownCallback = null; 
         score = 0;
         this.select.play();
         backgroundMusic.loop = false;
         backgroundMusic.stop();
-        this.state.start('Boot', true, true);
+        this.nextLevel();
       }
 
       else {
         name += event.key;
       }
 
-      text7 = game.add.text(250, 100, "GAME OVER \n\n  " + name, style);
+        text7 = game.add.text(250, 100, "GAME OVER \n\n  " + name, style);
     }
 
     game.input.keyboard.addCallbacks(this, myFunction);
@@ -73,5 +74,8 @@ Game.Endgame.prototype = {
 
 
     },
+  nextLevel: function() {
+      this.state.start('Boot', true, true);
+    }
 
 };
