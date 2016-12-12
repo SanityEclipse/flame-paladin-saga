@@ -12,21 +12,20 @@ Game.Preloader.prototype = {
       this.load.setPreloadSprite(this.preloadBar);
 
       this.load.tilemap('myMap', 'flame-paladin-game/assets/maps/level1smaller.json', null, Phaser.Tilemap.TILED_JSON);
-      this.load.image('tileset', 'flame-paladin-game/assets/images/reducedtileset.png');
+      this.load.image('tileset', 'flame-paladin-game/assets/images/world/reducedtileset.png');
+      this.load.image('Level_Bg', 'flame-paladin-game/assets/images/world/background.jpg');
 
-      this.load.image('Level_Bg', 'flame-paladin-game/assets/images/background.jpg');
+      this.load.image('portait', 'flame-paladin-game/assets/images/player/portait.png');
+      this.load.spritesheet('player', 'flame-paladin-game/assets/images/player/merged-paladin-small.png', 60, 96);
+      this.load.spritesheet('fire-right', 'flame-paladin-game/assets/images/player/fireball-right.png', 64, 64);
+      this.load.spritesheet('fire-left', 'flame-paladin-game/assets/images/player/fireball-left.png', 64, 64);
 
-      this.load.image('portait', 'flame-paladin-game/assets/images/portait.png');
+      this.load.spritesheet('blue-gem', 'flame-paladin-game/assets/images/items/blue-gem.png', 39, 39);
+      this.load.spritesheet('red-gem', 'flame-paladin-game/assets/images/items/red-gem.png', 39, 39);
+      this.load.spritesheet('gold-key', 'flame-paladin-game/assets/images/items/key-item.png', 46, 64);
+      this.load.spritesheet('magic-beaker', 'flame-paladin-game/assets/images/items/magic-beaker-item.png', 23, 31);
 
-
-      this.load.spritesheet('player', 'flame-paladin-game/assets/images/merged-paladin-small.png', 60, 96);
-      this.load.spritesheet('fire-right', 'flame-paladin-game/assets/images/fireball-right.png', 64, 64);
-      this.load.spritesheet('fire-left', 'flame-paladin-game/assets/images/fireball-left.png', 64, 64);
-      this.load.spritesheet('blue-gem', 'flame-paladin-game/assets/images/blue-gem.png', 39, 39);
-      this.load.spritesheet('red-gem', 'flame-paladin-game/assets/images/red-gem.png', 39, 39);
-      this.load.spritesheet('gold-key', 'flame-paladin-game/assets/images/key-item.png', 46, 64)
-      this.load.spritesheet('magic-beaker', 'flame-paladin-game/assets/images/magic-beaker-item.png', 23, 31)
-
+      this.load.spritesheet('bat', 'flame-paladin-game/assets/images/enemies/bat-enemy.png', 64, 64);
 
       this.load.audio("menu", "flame-paladin-game/assets/bg-music/Puzzle-Game-2.mp3");
       this.load.audio("level1", "flame-paladin-game/assets/bg-music/Castle-of-Despair.mp3");

@@ -1,3 +1,18 @@
+Enemybat = function(index, game, x, y) {
+  this.bat = game.add.sprite(x, y, 'bat');
+  this.bat.anchor.setTo(0.5, 0.5);
+  this.bat.name = index.toString();
+  game.physics.enable(this.bat, Phaser.Physics.ARCADE);
+  this.bat.body.immovable = true;
+  this.bat.body.collideWorldBounds = true;
+  this.bat.body.allowGravity = false;
+  this.batTween = game.add.tween(this.bat).to({
+      y: this.bat.y + 100
+  }, 2000, 'Linear', true, 0, -1, true);
+  this.bat.animations.add('fly', [0, 1, 2, 3, 4, 5], 7, true);
+  this.bat.animations.play('fly', 7, true);
+},
+
 BlueGemItem = function (index, game, x, y) {
   this.blueGem = game.add.sprite(x, y, 'blue-gem');
   this.blueGem.name = index.toString();
@@ -41,6 +56,8 @@ MagicBeakerItem = function (index, game, x, y) {
   this.magicBeaker.animations.add('shimmer', [0, 1, 2, 3, 4, 5, 6, 7, 8], 5, true);
   this.magicBeaker.animations.play('shimmer', 5, true);
 }
+
+var enemy0;
 
 Game.Level1 = function(game){}
 
@@ -141,6 +158,7 @@ Game.Level1.prototype = {
 
     magic0 = new MagicBeakerItem(0, game, player.x + 3046, player.y + -94);
 
+    enemy0 = new Enemybat(0, game, player.x + 300, player.y - 75);
 
     portait = this.add.sprite(5, 5, 'portait');
     portait.scale.x= 0.5;
@@ -175,8 +193,8 @@ Game.Level1.prototype = {
     fireballsRight.enableBody = true;
     fireballsRight.physicsBodyType = Phaser.Physics.ARCADE;
     fireballsRight.createMultiple(20, 'fire-right');
-    fireballsRight.setAll('anchor.x', 0.7);
-    fireballsRight.setAll('anchor.y', 0.7);
+    fireballsRight.setAll('anchor.x', 0.5);
+    fireballsRight.setAll('anchor.y', 0.5);
     fireballsRight.setAll('outOfBoundsKill', true);
     fireballsRight.setAll('checkWorldBounds', true);
     fireballsRight.setAll('body.allowGravity', false);
@@ -187,8 +205,8 @@ Game.Level1.prototype = {
     fireballsLeft.enableBody = true;
     fireballsLeft.physicsBodyType = Phaser.Physics.ARCADE;
     fireballsLeft.createMultiple(20, 'fire-left');
-    fireballsLeft.setAll('anchor.x', 0.7);
-    fireballsLeft.setAll('anchor.y', 0.7);
+    fireballsLeft.setAll('anchor.x', 0.5);
+    fireballsLeft.setAll('anchor.y', 0.5);
     fireballsLeft.setAll('outOfBoundsKill', true);
     fireballsLeft.setAll('checkWorldBounds', true);
     fireballsLeft.setAll('body.allowGravity', false);
@@ -205,6 +223,8 @@ Game.Level1.prototype = {
   update: function (game) {
 
     this.physics.arcade.collide(player, blockedLayer);
+
+    this.physics.arcade.collide(player, enemy0.bat);
 
     this.physics.arcade.collide(player, blue0.blueGem);
     this.physics.arcade.collide(player, blue1.blueGem);
@@ -256,17 +276,18 @@ Game.Level1.prototype = {
 
     }
 
-    if (controls.shoot.isDown && facing == 'right' && mana > 0){
+    if (controls.shoot.isDown && facing == 'right' && mana > 0) {
       this.shootFireballRight();
     }
 
-    if (controls.shoot.isDown && facing == 'left' && mana > 0){
+    if (controls.shoot.isDown && facing == 'left' && mana > 0) {
       this.shootFireballLeft();
     }
 
-    if (player.body.velocity.x == 0 && player.body.velocity.y == 0 && !controls.shoot.isDown){
+    if (player.body.velocity.x == 0 && player.body.velocity.y == 0 && !controls.shoot.isDown) {
       player.animations.play('idle');
     }
+
     if (enterKey.isDown) {    //this will be removed from the live version.
         this.select.play();
         this.camera.flash('#000000');
@@ -274,6 +295,11 @@ Game.Level1.prototype = {
         backgroundMusic.stop();
         this.state.start('Endgame');
     }
+    //ENEMY COLLISIONS
+
+
+
+    // ITEM COLLSIONS
 
     if (checkOverlap(player, blue0.blueGem)){
         blue0.blueGem.kill();
@@ -339,6 +365,12 @@ Game.Level1.prototype = {
         magic0.magicBeaker.kill();
         this.pickupItem.play();
         text2.setText(mana += 10);
+    }
+    if (checkOverlap(fireballsRight, enemy0.bat) || (checkOverlap(fireballsLeft, enemy0.bat))) {
+        console.log("collided w bat");
+        fireball.kill();
+        enemy0.bat.kill();
+        text0.setText("Score: " + (count += 50));
     }
   },
 
