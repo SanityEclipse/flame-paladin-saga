@@ -19,6 +19,7 @@ Game.Preloader.prototype = {
       this.load.spritesheet('player', 'flame-paladin-game/assets/images/player/merged-paladin-small.png', 60, 96);
       this.load.spritesheet('fire-right', 'flame-paladin-game/assets/images/player/fireball-right.png', 64, 64);
       this.load.spritesheet('fire-left', 'flame-paladin-game/assets/images/player/fireball-left.png', 64, 64);
+      this.load.spritesheet('big-fireball-collision', 'flame-paladin-game/assets/images/player/big-fireball-collision.png', 48, 48);
 
       this.load.spritesheet('blue-gem', 'flame-paladin-game/assets/images/items/blue-gem.png', 39, 39);
       this.load.spritesheet('red-gem', 'flame-paladin-game/assets/images/items/red-gem.png', 39, 39);
@@ -35,6 +36,8 @@ Game.Preloader.prototype = {
       this.load.audio("fireball-sound", "flame-paladin-game/assets/sound-effects/fireball.mp3");
       this.load.audio("jump-sound", "flame-paladin-game/assets/sound-effects/jump-sound.mp3");
       this.load.audio("pickup-item", "flame-paladin-game/assets/sound-effects/pickup-item.mp3");
+      this.load.audio("enemy-ignite", "flame-paladin-game/assets/sound-effects/enemy-ignite.mp3");
+
 
     },
 

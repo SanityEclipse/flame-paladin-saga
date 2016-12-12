@@ -67,6 +67,7 @@ var count = 0;
 var enterKey; //will be taken out of live version. Demo puposes only.
 var facing = 'right';
 var fireballs;
+var fireballCollision;
 var jumpTimer = 0;
 var key = 0;
 var mana = 10;
@@ -97,6 +98,7 @@ Game.Level1.prototype = {
     this.jumpSound = game.add.audio("jump-sound");
     this.select = game.add.audio("menu-select");
     this.pickupItem = game.add.audio("pickup-item")
+    this.enemyIgnite = game.add.audio("enemy-ignite");
 
     this.physics.arcade.gravity.y = 1400;
 
@@ -213,6 +215,17 @@ Game.Level1.prototype = {
     fireballsLeft.callAll('animations.add', 'animations', 'fire-left', [0, 1, 2, 3, 4], 5, true);
     fireballsLeft.callAll('play', null, 'fireball-sound');
 
+    fireballCollision = game.add.group();
+    fireballCollision.enableBody = true;
+    fireballCollision.physicsBodyType = Phaser.Physics.ARCADE;
+    fireballCollision.createMultiple(20, 'big-fireball-collision');
+    fireballCollision.setAll('anchor.x', 0.5);
+    fireballCollision.setAll('anchor.y', 0.5);
+    fireballCollision.setAll('outOfBoundsKill', true);
+    fireballCollision.setAll('checkWorldBounds', true);
+    fireballCollision.setAll('body.allowGravity', false);
+    fireballCollision.callAll('animations.add', 'animations', 'big-fireball-collision', [0, 1, 2, 3, 4, 5], 10, false);
+
     text0.fixedToCamera = true;
     text1.fixedToCamera = true;
     text2.fixedToCamera = true;
@@ -297,7 +310,16 @@ Game.Level1.prototype = {
     }
     //ENEMY COLLISIONS
 
-
+    if (checkOverlap(enemy0.bat, fireballsRight) || (checkOverlap(fireballsLeft, enemy0.bat))) {
+        fireballCollision = fireballCollision.getFirstExists(false);
+        fireballCollision.reset(fireball.body.x + fireball.body.halfWidth, fireball.body.y + fireball.body.halfHeight);
+        fireballCollision.body.velocity.y = enemy0.bat.body.velocity.y;
+        fireballCollision.alpha = 0.7;
+        fireballCollision.animations.play('big-fireball-collision', 10, false, true);
+        fireball.kill();
+        enemy0.bat.kill();
+        text0.setText("Score: " + (count += 50));
+    }
 
     // ITEM COLLSIONS
 
@@ -366,12 +388,7 @@ Game.Level1.prototype = {
         this.pickupItem.play();
         text2.setText(mana += 10);
     }
-    if (checkOverlap(fireballsRight, enemy0.bat) || (checkOverlap(fireballsLeft, enemy0.bat))) {
-        console.log("collided w bat");
-        fireball.kill();
-        enemy0.bat.kill();
-        text0.setText("Score: " + (count += 50));
-    }
+
   },
 
   spawn: function() {
