@@ -1,19 +1,36 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-
+import { ScoreService } from '../score.service';
+import { Score } from '../Score';
 
 @Component({
   selector: 'app-game-landing',
-  templateUrl: './game-landing.component.html',
+  template: `
+  <h2>Scores</h2>
+    <div *ngFor="let score of scores">
+      <ul>
+        <li> {{ score.id }} </li>
+        <li> {{ score.name }} </li>
+        <li> {{ score.score }} </li>
+      </ul>
+    </div>
+      <app-game-canvas></app-game-canvas>
+  `,
   styleUrls: ['./game-landing.component.css']
 })
 
 export class GameLandingComponent implements OnInit {
 
+  scores: Score[] = [];
 
-  constructor() { }
+  constructor(
+    private ScoreService: ScoreService) {}
 
   ngOnInit() {
+    this.ScoreService.getScores()
+    .then(scores => this.scores = scores)
+      console.log(this.scores);
+    
   }
 
 }

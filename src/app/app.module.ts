@@ -13,8 +13,16 @@ import { SiteLandingComponent } from './site-landing/site-landing.component';
 import { ContactInfoComponent } from './contact-info/contact-info.component';
 import { TechUsedComponent } from './tech-used/tech-used.component';
 import { GameCanvasComponent } from './game-canvas/game-canvas.component';
+import { ScoreService }  from './score.service';
 
 @NgModule({
+
+  imports: [
+    BrowserModule,
+    FormsModule,
+    HttpModule,
+    AppRoutingModule
+  ],
   declarations: [
     AppComponent,
     GameLandingComponent,
@@ -23,13 +31,7 @@ import { GameCanvasComponent } from './game-canvas/game-canvas.component';
     TechUsedComponent,
     GameCanvasComponent,
   ],
-  imports: [
-    BrowserModule,
-    FormsModule,
-    HttpModule,
-    AppRoutingModule
-  ],
-  providers: [],
+  providers: [ScoreService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

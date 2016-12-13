@@ -11,6 +11,7 @@ const routes: Routes = [
   { path: 'site-landing', component: SiteLandingComponent },
   { path: 'contact-info', component: ContactInfoComponent },
   { path: 'tech-used', component: TechUsedComponent }
+
 ];
 
 @NgModule({

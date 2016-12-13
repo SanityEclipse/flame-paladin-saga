@@ -2,9 +2,12 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-game-canvas',
-  templateUrl: './game-canvas.component.html',
+  template: `
+  <div id="game-renders-here"></div>
+  `,
   styleUrls: ['./game-canvas.component.css']
 })
+
 export class GameCanvasComponent implements OnInit {
 
   constructor() { }
