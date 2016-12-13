@@ -67,9 +67,10 @@ Game.Endgame.prototype = {
     },
 
   nextLevel: function() {
-      ScoreService.createScores(name, score); 
+      ScoreService.createScores(name, score);
       name = "";
       score = 0;
+      mana = 10; 
       this.state.start('Boot', true, true);
     },
 

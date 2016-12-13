@@ -8,13 +8,15 @@ import { Score } from '../Score';
   template: `
 
   <div style="float:left; margin-left:10%">
-    <h2>Top 5 Scores</h2>
+    <h1 style="color:white">Top 5 Scores</h1>
       <div *ngFor="let score of scores">
         <ul>
-          <li> {{ score.name }}: {{ score.score }} </li>
+          <li style="color:white"> {{ score.name }} {{ score.score }} </li>
         </ul>
-
       </div>
+      <p align="left">
+        <a href="/site-landing" class="btn btn-lg btn-danger" role="button" style="margin-top: 85%">Return to Landing</a>
+      </p>
     </div>
   <app-game-canvas></app-game-canvas>
   `,
