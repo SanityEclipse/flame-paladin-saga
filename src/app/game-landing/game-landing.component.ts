@@ -6,7 +6,7 @@ import { Score } from '../Score';
 @Component({
   selector: 'app-game-landing',
   template: `
-  <h2>Scores</h2>
+  <h2>Top 5 Scores</h2>
     <div *ngFor="let score of scores">
       <ul>
         <li> {{ score.name }}: {{ score.score }} </li>
@@ -26,7 +26,7 @@ export class GameLandingComponent implements OnInit {
 
   ngOnInit() {
     this.ScoreService.getScores()
-    .then(scores => this.scores = scores)
+    .then(scores => this.scores = scores.slice(1,6))
       console.log(this.scores);
 
   }
