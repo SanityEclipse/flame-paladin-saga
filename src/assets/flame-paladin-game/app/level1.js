@@ -252,6 +252,7 @@ Game.Level1.prototype = {
 
     this.physics.arcade.overlap(fireballsRight, enemy0.bat, this.collisionHandler, null, this);
     this.physics.arcade.overlap(fireballsLeft, enemy0.bat, this.collisionHandler, null, this);
+
     this.physics.arcade.overlap(fireballsRight, enemy1.bat, this.collisionHandler1, null, this);
     this.physics.arcade.overlap(fireballsLeft, enemy1.bat, this.collisionHandler1, null, this);
 

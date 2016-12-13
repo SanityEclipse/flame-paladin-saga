@@ -4,7 +4,7 @@ function getScore() {
   return knex('scoreboard');
 }
 function createScore(scoreboard) {
-  return getEntries().insert(scoreboard, 'id')
+  return getScore().insert(scoreboard, 'id')
 }
 
 module.exports ={
