@@ -3,7 +3,11 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-game-canvas',
   template: `
-  <div id="game-renders-here"></div>
+  <div class = 'container'>
+    <div>
+      <div id="game-renders-here"></div>
+    </div>
+  </div>
   `,
   styleUrls: ['./game-canvas.component.css']
 })
@@ -16,7 +20,7 @@ export class GameCanvasComponent implements OnInit {
 
         window.onload = function() {
           var game = new Phaser.Game(
-            800, 600,
+            725, 525,
             Phaser.AUTO,
             'game-renders-here');
 

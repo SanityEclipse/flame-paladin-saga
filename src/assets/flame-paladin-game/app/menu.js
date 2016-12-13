@@ -24,10 +24,10 @@ Game.Menu.prototype = {
     var style2 = {
       font: "28px Press Start 2P", fill: "#99ccff", boundsAlignH: "center", boundsAlignV: "middle" };
 
-    text = game.add.text(0, 0, "The Last Flame Paladin II", style);
+    text = game.add.text(0, 0, "The Last Flame Paladin\n\n         II", style);
     text.setTextBounds(0, 100, 800, 100);
 
-    text2 = game.add.text(225, 500, "PRESS ENTER", style);
+    text2 = game.add.text(225, 480, "PRESS ENTER", style);
 
     text3 = game.add.text(215, 350, '-Demo Build-', style2);
 

@@ -27,7 +27,7 @@ Game.Directions.prototype = {
 
     text5 = game.add.text(100, 200, '   A, S, W, = Move\nSpace bar = Fireball', style2);
 
-    text6 = game.add.text(100, 500, "PRESS ENTER TO BEGIN", style);
+    text6 = game.add.text(100, 480, "PRESS ENTER TO BEGIN", style);
 
     enterKey = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
 
