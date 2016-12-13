@@ -15,7 +15,7 @@ import { Score } from '../Score';
         </ul>
       </div>
       <p align="left">
-        <a href="/site-landing" class="btn btn-lg btn-danger" role="button" style="margin-top: 85%">Return to Landing</a>
+        <a routerLink="/site-landing" class="btn btn-lg btn-danger" role="button" style="margin-top: 85%">Return to Landing</a>
       </p>
     </div>
   <app-game-canvas></app-game-canvas>

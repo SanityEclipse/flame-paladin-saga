@@ -18,7 +18,7 @@ export class GameCanvasComponent implements OnInit {
 
   ngOnInit() {
 
-        window.onload = function() {
+            // window.onload = function() {
           var game = new Phaser.Game(
             725, 525,
             Phaser.AUTO,
@@ -33,6 +33,6 @@ export class GameCanvasComponent implements OnInit {
 
           game.state.start('Boot');
 
-    }
+    // }
   }
 }
