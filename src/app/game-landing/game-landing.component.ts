@@ -9,9 +9,7 @@ import { Score } from '../Score';
   <h2>Scores</h2>
     <div *ngFor="let score of scores">
       <ul>
-        <li> {{ score.id }} </li>
-        <li> {{ score.name }} </li>
-        <li> {{ score.score }} </li>
+        <li> {{ score.name }}: {{ score.score }} </li>
       </ul>
     </div>
       <app-game-canvas></app-game-canvas>
@@ -30,7 +28,7 @@ export class GameLandingComponent implements OnInit {
     this.ScoreService.getScores()
     .then(scores => this.scores = scores)
       console.log(this.scores);
-    
+
   }
 
 }
