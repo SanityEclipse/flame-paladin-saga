@@ -1,3 +1,4 @@
+
 Game.Endgame = function(game){}
 
 var backgroundMusic;
@@ -5,19 +6,12 @@ var score;
 var text7;
 var text8;
 var text9;
-var name= "";
-
+var name;
+var playerInfo;
 Game.Endgame.prototype = {
 
 
   create: function(game){
-
-      if (name === ""){
-        name = "Name?";
-      }
-      if (score === undefined){
-        score = 0;
-      }
 
     backgroundMusic = game.add.audio('gameover');
     backgroundMusic.loop = true;
@@ -28,13 +22,8 @@ Game.Endgame.prototype = {
     var style = {
       font: "28px Press Start 2P", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle" };
 
-    var style2 = {
-      font: "28px Press Start 2P", fill: "#99ccff", boundsAlignH: "center", boundsAlignV: "middle" };
-
     text7 = game.add.text(250, 100, "GAME OVER \n\n  " + name, style);
-
     text8 = game.add.text(100, 300, "Your final Score is " + score, style);
-
     text9 = game.add.text(250, 500, "PRESS ENTER", style);
 
     var myFunction = function(event) {
@@ -49,10 +38,10 @@ Game.Endgame.prototype = {
         //SHIFT KEYS
       }
 
-      else if (event.keyCode === 13){
+      else if (event.keyCode === 13) {
         // ENTER KEY
-        game.input.keyboard.onDownCallback = null; 
-        score = 0;
+
+        game.input.keyboard.onDownCallback = null;
         this.select.play();
         backgroundMusic.loop = false;
         backgroundMusic.stop();
@@ -70,12 +59,19 @@ Game.Endgame.prototype = {
 
     },
 
+
   update: function(game) {
 
+    playerInfo = {name: name, score: score};
 
     },
+
   nextLevel: function() {
+      ScoreService.createScores(name, score); 
+      name = "";
+      score = 0;
       this.state.start('Boot', true, true);
-    }
+    },
+
 
 };
