@@ -18,12 +18,12 @@ app.get('/highscores', function (req, res, next) {
 });
 
 // POST method route
-// app.post('/highscore', function (req, res, next) {
-//   queries.createScore(req.body)
-//   .then(function(){
-//     res.redirect('/');
-//   })
-// });
+app.post('/highscores', function (req, res, next) {
+  queries.createScore(req.body)
+  .then(function(){
+    res.redirect('/');
+  })
+});
 
 app.get('*', function (req, res) {
   res.sendFile('dist/index.html', {root:'.'});

@@ -1,3 +1,4 @@
+
 Game.Endgame = function(game){}
 
 var backgroundMusic;
@@ -51,12 +52,27 @@ Game.Endgame.prototype = {
 
       else if (event.keyCode === 13){
         // ENTER KEY
-        game.input.keyboard.onDownCallback = null; 
+        game.input.keyboard.onDownCallback = null;
         score = 0;
         this.select.play();
         backgroundMusic.loop = false;
         backgroundMusic.stop();
         this.nextLevel();
+
+        $.ajax({
+          type: 'POST',
+          url: '/highscores',
+          data: {
+            name: name,
+            score: score
+          },
+          success: () => {
+            console.log("Success?");
+          },
+          error: () => {
+            console.log("try again");
+          }
+        })
       }
 
       else {
@@ -70,12 +86,14 @@ Game.Endgame.prototype = {
 
     },
 
+
   update: function(game) {
 
 
     },
   nextLevel: function() {
       this.state.start('Boot', true, true);
-    }
+    },
+
 
 };
