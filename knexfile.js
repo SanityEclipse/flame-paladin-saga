@@ -1,4 +1,4 @@
-require('dotenv').config();
+var dotenv = require('dotenv').config();
 
 module.exports = {
 
@@ -17,13 +17,13 @@ module.exports = {
   production: {
     client: 'pg',
     connection:
-      process.env.DATABASE_URL + '?ssl=true'
-    // migrations: {
-    //   directory: './db.migrations',
-    // },
-    // seeds: {
-    //   directory: './db/seeds'
-    // }
+      process.env.DATABASE_URL + '?ssl=true',
+    migrations: {
+      directory: './db/migrations',
+    },
+    seeds: {
+      directory: './db/seeds'
+    }
   }
 
 };
