@@ -7,6 +7,9 @@ var queries = require ('./db/queries');
 var http = require('http');
 var debug = require('debug')
 
+app.use(express.static("dist"));
+app.use(bodyParser.json());
+
 var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
@@ -16,8 +19,7 @@ server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
 
-app.use(express.static("dist"));
-app.use(bodyParser.json());
+
 
 function normalizePort(val) {
   var port = parseInt(val, 10);
