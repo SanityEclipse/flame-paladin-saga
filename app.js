@@ -6,6 +6,7 @@ var bodyParser = require('body-parser');
 var queries = require ('./db/queries');
 var http = require('http');
 var debug = require('debug')
+const pg = require('../db/knex.js')
 
 app.use(express.static("dist"));
 app.use(bodyParser.json());
