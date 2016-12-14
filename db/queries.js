@@ -1,4 +1,3 @@
-
 var knex = require('./knex')
 
 function getScore() {
