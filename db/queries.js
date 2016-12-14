@@ -1,4 +1,3 @@
-"use strict";
 
 var knex = require('./knex')
 
