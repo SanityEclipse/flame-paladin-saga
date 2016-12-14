@@ -10,7 +10,7 @@ const routes: Routes = [
   { path: 'game-landing', component: GameLandingComponent },
   { path: 'site-landing', component: SiteLandingComponent },
   { path: 'contact-info', component: ContactInfoComponent },
-  { path: 'tech-used', component: TechUsedComponent }
+  { path: 'tech-used', component: TechUsedComponent },
 
 ];
 

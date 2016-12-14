@@ -18,7 +18,9 @@ import { Score } from '../Score';
         <a routerLink="/site-landing" class="btn btn-lg btn-danger" role="button" style="margin-top: 85%">Return to Landing</a>
       </p>
     </div>
+    
   <app-game-canvas></app-game-canvas>
+
   `,
   styleUrls: ['./game-landing.component.css']
 })

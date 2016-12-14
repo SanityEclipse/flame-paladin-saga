@@ -1,4 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import * Phaser from 'phaser';
+
 
 @Component({
   selector: 'app-game-canvas',
@@ -15,8 +17,9 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 export class GameCanvasComponent implements OnInit, OnDestroy {
 
   constructor() {
-    this.game = new Phaser.Game(725, 525, Phaser.AUTO,'game-renders-here');
 
+    this.game = new Phaser.Game(725, 525, Phaser.AUTO,'game-renders-here');
+    
     game: Phaser.Game;
 
     this.game.state.add('Boot', Game.Boot);
@@ -25,8 +28,8 @@ export class GameCanvasComponent implements OnInit, OnDestroy {
     this.game.state.add('Directions', Game.Directions);
     this.game.state.add('Level1', Game.Level1);
     this.game.state.add('Endgame', Game.Endgame);
+  }
 
-}
   ngOnInit() {
     this.game.state.start('Boot');
   }
