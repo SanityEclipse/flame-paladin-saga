@@ -4,7 +4,7 @@ require('dotenv').config();
 
 const knex = require('knex');
 const config = require('../knexfile')[environment];
-const env = process.env.NODE_ENV || 'development';
+const environment = process.env.NODE_ENV || 'development';
 
 let pg = knex(config[env]);
 
