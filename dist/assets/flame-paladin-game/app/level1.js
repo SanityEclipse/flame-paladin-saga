@@ -58,6 +58,17 @@ MagicBeakerItem = function (index, game, x, y) {
   this.magicBeaker.animations.play('shimmer', 5, true);
 }
 
+DeathSpikes = function (index, game, x, y){
+  this.deathSpikes = game.add.sprite(x, y, 'spikes');
+  this.deathSpikes.name = index.toString();
+  game.physics.enable(this.deathSpikes, Phaser.Physics.ARCADE);
+  this.deathSpikes.body.immovable = false;
+  this.deathSpikes.body.collideWorldBounds = true;
+  this.deathSpikes.body.allowGravity = false;
+
+
+}
+
 var enemy0;
 var enemy1;
 
@@ -79,6 +90,7 @@ var playerSpeed = 400;
 var respawn;
 var score = 0;
 var shootTime = 0;
+var spikes;
 var text0;
 var text1;
 var text2;
@@ -102,6 +114,7 @@ Game.Level1.prototype = {
     this.select = game.add.audio("menu-select");
     this.pickupItem = game.add.audio("pickup-item")
     this.enemyIgnite = game.add.audio("enemy-ignite");
+    this.deathScream = game.add.audio("death-scream"); 
 
     this.physics.arcade.gravity.y = 1400;
 
@@ -120,8 +133,6 @@ Game.Level1.prototype = {
     backgroundLayer.resizeWorld();
 
     map.setCollisionBetween(1, 2000, true, 'Collision');
-
-    map.setTileIndexCallback(1683, this.nextLevel, this, 'Collision');
 
     map.createFromObjects('Object Layer 1', 1, '', 0, true, false, respawn); //spawn point
 
@@ -171,6 +182,12 @@ Game.Level1.prototype = {
         portait.scale.x= 0.5;
         portait.scale.y= 0.5;
         portait.fixedToCamera = true;
+
+    spikes0 = new DeathSpikes(0, game, player.x + 2408, player.y + 714);
+    spikes1 = new DeathSpikes(0, game, player.x + 2472, player.y + 714);
+    spikes2 = new DeathSpikes(0, game, player.x + 2536, player.y + 714);
+    spikes3 = new DeathSpikes(0, game, player.x + 2600, player.y + 714);
+
 
     text0 = game.add.text(game.camera.x + 65, game.camera.y + 5, "Score: " + score, {
       font: '20px Press Start 2P',
@@ -242,6 +259,7 @@ Game.Level1.prototype = {
     this.physics.arcade.collide(player, [red0.redGem, red1.redGem, red2.redGem], this.item500, null, this);
     this.physics.arcade.collide(player, [key0.goldKey, key1.goldKey], this.itemKey, null, this);
     this.physics.arcade.collide(player, [magic0.magicBeaker], this.itemMagicBeaker, null, this);
+    this.physics.arcade.collide(player, [spikes0.deathSpikes, spikes1.deathSpikes, spikes2.deathSpikes, spikes3.deathSpikes], this.deathPit, null, this);
 
     this.physics.arcade.collide(player, [enemy0.bat, enemy1.bat], this.playerDamage);
 
@@ -311,6 +329,11 @@ Game.Level1.prototype = {
     var fireballCollision = fireballCollisions.getFirstExists(false);
     fireballCollision.reset(bat.body.x + 75, bat.body.y + 30);
     fireballCollision.play('big-fireball-collision', 10, false, true);
+  },
+
+  deathPit: function (player, deathSpikes) {
+    this.deathScream.play();
+    health = 0;
   },
 
   item100: function(player, blueGem) {

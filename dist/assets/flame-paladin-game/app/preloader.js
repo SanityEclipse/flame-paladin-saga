@@ -25,8 +25,10 @@ Game.Preloader.prototype = {
       this.load.spritesheet('red-gem', 'assets/flame-paladin-game/assets/images/items/red-gem.png', 39, 39);
       this.load.spritesheet('gold-key', 'assets/flame-paladin-game/assets/images/items/key-item.png', 46, 64);
       this.load.spritesheet('magic-beaker', 'assets/flame-paladin-game/assets/images/items/magic-beaker-item.png', 23, 31);
-
+      this.load.spritesheet('blue-candle', 'assets/flame-paladin-game/assets/images/world/blue-candle', 64, 64);
       this.load.spritesheet('bat', 'assets/flame-paladin-game/assets/images/enemies/bat-enemy.png', 64, 64);
+      this.load.spritesheet('spikes', 'assets/flame-paladin-game/assets/images/world/spikes.png', 64, 64);
+
 
       this.load.audio("menu", "assets/flame-paladin-game/assets/bg-music/Puzzle-Game-2.mp3");
       this.load.audio("level1", "assets/flame-paladin-game/assets/bg-music/Castle-of-Despair.mp3");
@@ -37,6 +39,7 @@ Game.Preloader.prototype = {
       this.load.audio("jump-sound", "assets/flame-paladin-game/assets/sound-effects/jump-sound.mp3");
       this.load.audio("pickup-item", "assets/flame-paladin-game/assets/sound-effects/pickup-item.mp3");
       this.load.audio("enemy-ignite", "assets/flame-paladin-game/assets/sound-effects/enemy-ignite.mp3");
+      this.load.audio("death-scream", "assets/flame-paladin-game/assets/sound-effects/death-scream.mp3");
 
 
     },
