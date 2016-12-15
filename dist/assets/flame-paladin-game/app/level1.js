@@ -11,7 +11,6 @@ Enemybat = function(index, game, x, y) {
   }, 1000, 'Linear', true, 0, -1, true);
   this.bat.body.setSize(this.bat.width * 1 / 4, this.bat.height * 1 / 2)
   this.bat.animations.add('fly', [0, 1, 2, 3, 4, 5], 7, true);
-  this.bat.animations.add('death' [6, 7, 8, 9, 10], 10, false);
   this.bat.animations.play('fly', 7, true);
 },
 
@@ -216,24 +215,15 @@ Game.Level1.prototype = {
     fireballsLeft.callAll('animations.add', 'animations', 'fire-left', [0, 1, 2, 3, 4], 5, true);
     fireballsLeft.callAll('play', null, 'fireball-sound');
 
-    fireballCollision = game.add.group();
-    fireballCollision.createMultiple(30, 'big-fireball-collision');
-    fireballCollision.forEach(deathAnimation, this);
+    fireballCollisions = game.add.group();
+    fireballCollisions.createMultiple(30, 'big-fireball-collision');
+    fireballCollisions.forEach(deathAnimation, this);
 
     function deathAnimation(enemy){
       enemy.anchor.x= 0.5;
       enemy.anchor.y= 0.5;
       enemy.animations.add('big-fireball-collision')
     }
-
-    // fireballCollision.enableBody = true;
-    // fireballCollision.physicsBodyType = Phaser.Physics.ARCADE;
-    // fireballCollision.setAll('anchor.x', 0.5);
-    // fireballCollision.setAll('anchor.y', 0.5);
-    // fireballCollision.setAll('outOfBoundsKill', true);
-    // fireballCollision.setAll('checkWorldBounds', true);
-    // fireballCollision.setAll('body.allowGravity', false);
-    // fireballCollision.callAll('animations.add', 'animations', 'big-fireball-collision', [0, 1, 2, 3, 4, 5], 10, false);
 
     text0.fixedToCamera = true;
     text1.fixedToCamera = true;
@@ -244,12 +234,7 @@ Game.Level1.prototype = {
 
   update: function (game) {
 
-    if (health <= 0){
-      backgroundMusic.mute = true;
-      this.state.start('Endgame', true, false);
-      health = 10;
-
-    }
+    player.body.velocity.x = 0;
 
     this.physics.arcade.collide(player, blockedLayer);
 
@@ -263,7 +248,12 @@ Game.Level1.prototype = {
     this.physics.arcade.overlap(fireballsRight, [enemy0.bat, enemy1.bat], this.collisionHandler, null, this);
     this.physics.arcade.overlap(fireballsLeft, [enemy0.bat, enemy1.bat], this.collisionHandler, null, this);
 
-    player.body.velocity.x = 0;
+    if (health <= 0){
+      backgroundMusic.mute = true;
+      this.state.start('Endgame', true, false);
+      health = 10;
+
+    }
 
     if (controls.right.isDown) {
       if (player.body.onFloor() || player.body.touching.down) {
@@ -318,9 +308,9 @@ Game.Level1.prototype = {
     fireball.kill();
     bat.kill();
     text0.setText("Score: " + (score += 50));
-    // var fireballCollision = fireballCollisions.getFirstExists(false);
-    // fireballCollisions.reset(enemy0.body.x, enemy0.body.y);
-    // fireballCollisions.play('big-fireball-collision', 10, false. true);
+    var fireballCollision = fireballCollisions.getFirstExists(false);
+    fireballCollision.reset(bat.body.x + 75, bat.body.y + 30);
+    fireballCollision.play('big-fireball-collision', 10, false, true);
   },
 
   item100: function(player, blueGem) {
@@ -345,12 +335,6 @@ Game.Level1.prototype = {
     magicBeaker.kill();
     this.pickupItem.play();
     text1.setText("HP:" + health + " MP:" + (mana += 10));
-  },
-
-  spawn: function() {
-    respawn.forEach(function(spawnPoint) {
-      player.reset(spawnPoint.x, spawnPoint.y);
-    }, this);
   },
 
   nextLevel: function() {
@@ -378,6 +362,7 @@ Game.Level1.prototype = {
       }
     }
   },
+
   shootFireballRight: function() {
     if (this.time.now > shootTime) {
       shootTime = this.time.now + 800;
@@ -393,13 +378,19 @@ Game.Level1.prototype = {
     }
   },
 
+  spawn: function() {
+    respawn.forEach(function(spawnPoint) {
+      player.reset(spawnPoint.x, spawnPoint.y);
+    }, this);
+  },
 
 }
+
 function checkOverlap(spriteA, spriteB) {
-  if (spriteA.alive == false || spriteB.alive == false){
+  if (spriteA.alive == false || spriteB.alive == false) {
     return false
   }
-    var boundsA = spriteA.getBounds();
-    var boundsB = spriteB.getBounds();
-    return Phaser.Rectangle.intersects(boundsA, boundsB);
+  var boundsA = spriteA.getBounds();
+  var boundsB = spriteB.getBounds();
+  return Phaser.Rectangle.intersects(boundsA, boundsB);
 }
