@@ -119,7 +119,7 @@ Game.Level1.prototype = {
     objectLayer = map.createLayer("Object Layer 1")
     backgroundLayer.resizeWorld();
 
-    map.setCollisionBetween(1, 1100, true, 'Collision');
+    map.setCollisionBetween(1, 2000, true, 'Collision');
 
     map.setTileIndexCallback(1683, this.nextLevel, this, 'Collision');
 
