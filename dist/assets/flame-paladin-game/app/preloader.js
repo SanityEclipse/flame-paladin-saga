@@ -28,7 +28,7 @@ Game.Preloader.prototype = {
       this.load.spritesheet('blue-candle', 'assets/flame-paladin-game/assets/images/world/blue-candle', 64, 64);
       this.load.spritesheet('bat', 'assets/flame-paladin-game/assets/images/enemies/bat-enemy.png', 64, 64);
       this.load.spritesheet('spikes', 'assets/flame-paladin-game/assets/images/world/spikes.png', 64, 64);
-      this.load.spritesheet('door', 'assets/flame-paladin-game/assets/images/world/exit-door.png', 64, 128);
+      this.load.spritesheet('door', 'assets/flame-paladin-game/assets/images/world/key-hole-door.png', 64, 128);
 
 
       this.load.audio("menu", "assets/flame-paladin-game/assets/bg-music/Puzzle-Game-2.mp3");

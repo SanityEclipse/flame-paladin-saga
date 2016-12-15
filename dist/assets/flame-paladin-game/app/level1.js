@@ -182,6 +182,8 @@ Game.Level1.prototype = {
     door = this.add.sprite(player.x + 1410, player.y + 610, 'door');
            this.physics.arcade.enable(door);
            door.body.allowGravity = false;
+           door.body.immovable = true;
+
 
     var portait = this.add.sprite(5, 5, 'portait');
         portait.scale.x= 0.5;
@@ -368,8 +370,10 @@ Game.Level1.prototype = {
   },
 
   nextLevel: function() {
+    if (key >= 2) {
     backgroundMusic.mute = true;
     this.state.start('Endgame', true, false);
+    }
   },
 
   playerDamage: function() {
