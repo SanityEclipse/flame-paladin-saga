@@ -1,3 +1,20 @@
+AngryPlant = function(index, game, x, y){
+  this.angryPlant = game.add.sprite(x, y, 'angry-plant');
+  this.angryPlant.anchor.setTo(0.5, 0.5);
+  this.angryPlant.name = index.toString();
+  game.physics.enable(this.angryPlant, Phaser.Physics.ARCADE);
+  this.angryPlant.body.immovable = true;
+  this.angryPlant.body.collideWorldBounds = true;
+  this.angryPlant.allowGravity = false;
+  this.angryPlantTween = game.add.tween(this.angryPlant).to({
+      x: this.angryPlant.x + 10,
+  }, 0, 'Linear', true, 0, -1, true);
+  this.angryPlant.body.setSize(this.angryPlant.width * 1, this.angryPlant.height * 1);
+  this.angryPlant.animations.add('writhe', [0, 1, 2, 3], 7, true);
+  this.angryPlant.animations.play('writhe', 7, true);
+
+}
+
 Enemybat = function(index, game, x, y) {
   this.bat = game.add.sprite(x, y, 'bat');
   this.bat.anchor.setTo(0.5, 0.5);
@@ -68,19 +85,34 @@ DeathSpikes = function (index, game, x, y){
 
 
 }
-
+//BATS
 var enemy0;
 var enemy1;
+var enemy2;
+var enemy3;
+var enemy4;
+var enemy5;
+var enemy6;
+var enemy12;
+var enemy13;
+
+//ANGRY PLANTS
+
+var enemy7;
+var enemy8;
+var enemy9;
+var enemy10;
+var enemy11;
+
+
 
 Game.Level1 = function(game){}
 
 var controls = {};
 var door;
-var enterKey; //will be taken out of live version. Demo puposes only.
 var fireballCollisions;
 var facing = 'right';
 var fireballs;
-// var fireballCollision;
 var health = 10;
 var jumpTimer = 0;
 var key = 0;
@@ -166,6 +198,7 @@ Game.Level1.prototype = {
     blue4 = new BlueGemItem(0, game, player.x + 1550, player.y + -70);
     blue5 = new BlueGemItem(0, game, player.x + 2950, player.y + 275);
     blue6 = new BlueGemItem(0, game, player.x + 2165, player.y + 175);
+    blue7 = new BlueGemItem(0, game, player.x + 1350, player.y + 300);
 
     red0 = new RedGemItem(0, game, player.x + 0, player.y + 800);
     red1 = new RedGemItem(0, game, player.x + 2492, player.y + -330);
@@ -175,15 +208,29 @@ Game.Level1.prototype = {
     key1 = new GoldKeyItem(0, game, player.x + 2950, player.y + 650);
 
     magic0 = new MagicBeakerItem(0, game, player.x + 3046, player.y + -94);
+    // magic1 = new MagicBeakerItem(0, game, player.x + , player.y+ );
 
     enemy0 = new Enemybat(0, game, player.x + 260, player.y - 75);
     enemy1 = new Enemybat(0, game, player.x + 475, player.y - 75);
+    enemy2 = new Enemybat(0, game, player.x + 725, player.y - 75);
+    enemy3 = new Enemybat(0, game, player.x + 475, player.y + 200);
+    enemy4 = new Enemybat(0, game, player.x + 2500, player.y - 100);
+    enemy5 = new Enemybat(0, game, player.x + 2700, player.y - 125);
+    enemy6 = new Enemybat(0, game, player.x + 2900, player.y - 100);
+    enemy13 = new Enemybat(0, game, player.x + 2300, player.y - 125);
+    enemy14 = new Enemybat(0, game, player.x + 2100, player.y - 100);
+
+    enemy7  = new AngryPlant(0, game, player.x + 15, player.y + 415);
+    enemy8  = new AngryPlant(0, game, player.x + 500, player.y + 800);
+    enemy9  = new AngryPlant(0, game, player.x + 300, player.y + 800);
+    enemy10 = new AngryPlant(0, game, player.x + 100, player.y + 800);
+    enemy11 = new AngryPlant(0, game, player.x + 2545, player.y + 280);
+    enemy12 = new AngryPlant(0, game, player.x + 2700, player.y -350);
 
     door = this.add.sprite(player.x + 1410, player.y + 610, 'door');
            this.physics.arcade.enable(door);
            door.body.allowGravity = false;
            door.body.immovable = true;
-
 
     var portait = this.add.sprite(5, 5, 'portait');
         portait.scale.x= 0.5;
@@ -194,7 +241,13 @@ Game.Level1.prototype = {
     spikes1 = new DeathSpikes(0, game, player.x + 2472, player.y + 714);
     spikes2 = new DeathSpikes(0, game, player.x + 2536, player.y + 714);
     spikes3 = new DeathSpikes(0, game, player.x + 2600, player.y + 714);
-
+    spikes4 = new DeathSpikes(0, game, player.x + 770, player.y + 0);
+    spikes5 = new DeathSpikes(0, game, player.x + 834, player.y + 0);
+    spikes6 = new DeathSpikes(0, game, player.x + 898, player.y + 0);
+    spikes7 = new DeathSpikes(0, game, player.x + 962, player.y + 0);
+    spikes8 = new DeathSpikes(0, game, player.x + 1026, player.y + 0);
+    spikes8 = new DeathSpikes(0, game, player.x + 1090, player.y + 0);
+    spikes9 = new DeathSpikes(0, game, player.x + 1154, player.y + 0);
 
     text0 = game.add.text(game.camera.x + 65, game.camera.y + 5, "Score: " + score, {
       font: '20px Press Start 2P',
@@ -262,23 +315,32 @@ Game.Level1.prototype = {
 
     this.physics.arcade.collide(player, blockedLayer);
 
+    this.physics.arcade.collide([enemy7.angryPlant, enemy8.angryPlant, enemy9.angryPlant, enemy10.angryPlant, enemy11.angryPlant, enemy12.angryPlant], blockedLayer);
+
     this.physics.arcade.collide(player, door, this.nextLevel, null, this);
 
-    this.physics.arcade.collide(player, [blue0.blueGem, blue1.blueGem, blue2.blueGem, blue3.blueGem, blue4.blueGem, blue5.blueGem, blue6.blueGem], this.item100, null, this);
+    this.physics.arcade.collide(player, [blue0.blueGem, blue1.blueGem, blue2.blueGem, blue3.blueGem, blue4.blueGem, blue5.blueGem, blue6.blueGem, blue7.blueGem], this.item100, null, this);
     this.physics.arcade.collide(player, [red0.redGem, red1.redGem, red2.redGem], this.item500, null, this);
     this.physics.arcade.collide(player, [key0.goldKey, key1.goldKey], this.itemKey, null, this);
     this.physics.arcade.collide(player, [magic0.magicBeaker], this.itemMagicBeaker, null, this);
-    this.physics.arcade.collide(player, [spikes0.deathSpikes, spikes1.deathSpikes, spikes2.deathSpikes, spikes3.deathSpikes], this.deathPit, null, this);
 
-    this.physics.arcade.collide(player, [enemy0.bat, enemy1.bat], this.playerDamage);
+    this.physics.arcade.collide(player, [spikes0.deathSpikes, spikes1.deathSpikes, spikes2.deathSpikes, spikes3.deathSpikes, spikes4.deathSpikes, spikes5.deathSpikes, spikes6.deathSpikes, spikes7.deathSpikes, spikes8.deathSpikes, spikes9.deathSpikes], this.deathPit, null, this);
 
-    this.physics.arcade.overlap(fireballsRight, [enemy0.bat, enemy1.bat], this.collisionHandler, null, this);
-    this.physics.arcade.overlap(fireballsLeft, [enemy0.bat, enemy1.bat], this.collisionHandler, null, this);
+    this.physics.arcade.collide(player, [enemy0.bat, enemy1.bat, enemy2.bat, enemy3.bat, enemy4.bat, enemy5.bat, enemy6.bat, enemy7.angryPlant, enemy8.angryPlant, enemy9.angryPlant, enemy10.angryPlant, enemy11.angryPlant, enemy12.angryPlant, enemy13.bat, enemy14.bat], this.playerDamage);
+
+    this.physics.arcade.overlap(fireballsRight, [enemy0.bat, enemy1.bat, enemy2.bat, enemy3.bat, enemy4.bat, enemy5.bat, enemy6.bat, enemy13.bat, enemy14.bat], this.collisionHandler, null, this);
+
+    this.physics.arcade.overlap(fireballsLeft, [enemy0.bat, enemy1.bat, enemy2.bat, enemy3.bat, enemy4.bat, enemy5.bat, enemy6.bat, enemy13.bat, enemy14.bat], this.collisionHandler, null, this);
+
+    this.physics.arcade.overlap(fireballsLeft, [enemy7.angryPlant, enemy8.angryPlant, enemy9.angryPlant, enemy10.angryPlant, enemy11.angryPlant, enemy12.angryPlant], this.collisionHandler1, null, this);
+
+    this.physics.arcade.overlap(fireballsRight, [enemy7.angryPlant, enemy8.angryPlant, enemy9.angryPlant, enemy10.angryPlant, enemy11.angryPlant, enemy12.angryPlant], this.collisionHandler1, null, this);
 
     if (health <= 0){
       this.deathScream.play();
       backgroundMusic.mute = true;
       this.state.start('Endgame', true, false);
+      key = 0; 
       health = 10;
 
     }
@@ -322,13 +384,6 @@ Game.Level1.prototype = {
       player.animations.play('idle');
     }
 
-    if (enterKey.isDown) {    //this will be removed from the live version.
-        this.select.play();
-        this.camera.flash('#000000');
-        backgroundMusic.loop = false;
-        backgroundMusic.stop();
-        this.state.start('Endgame');
-    }
 
   },
 
@@ -338,6 +393,15 @@ Game.Level1.prototype = {
     text0.setText("Score: " + (score += 50));
     var fireballCollision = fireballCollisions.getFirstExists(false);
     fireballCollision.reset(bat.body.x + 75, bat.body.y + 30);
+    fireballCollision.play('big-fireball-collision', 10, false, true);
+  },
+
+  collisionHandler1: function(fireball, angryPlant){
+    fireball.kill();
+    angryPlant.kill();
+    text0.setText("Score: " + (score += 150));
+    var fireballCollision = fireballCollisions.getFirstExists(false);
+    fireballCollision.reset(angryPlant.body.x - 15, angryPlant.body.y + 30);
     fireballCollision.play('big-fireball-collision', 10, false, true);
   },
 
@@ -372,6 +436,7 @@ Game.Level1.prototype = {
   nextLevel: function() {
     if (key >= 2) {
     backgroundMusic.mute = true;
+    key = 0;
     this.state.start('Endgame', true, false);
     }
   },
