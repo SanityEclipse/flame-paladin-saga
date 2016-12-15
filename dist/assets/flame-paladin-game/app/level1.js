@@ -58,14 +58,26 @@ MagicBeakerItem = function (index, game, x, y) {
   this.magicBeaker.animations.play('shimmer', 5, true);
 }
 
+DeathSpikes = function (index, game, x, y){
+  this.deathSpikes = game.add.sprite(x, y, 'spikes');
+  this.deathSpikes.name = index.toString();
+  game.physics.enable(this.deathSpikes, Phaser.Physics.ARCADE);
+  this.deathSpikes.body.immovable = false;
+  this.deathSpikes.body.collideWorldBounds = true;
+  this.deathSpikes.body.allowGravity = false;
+
+
+}
+
 var enemy0;
 var enemy1;
 
 Game.Level1 = function(game){}
 
 var controls = {};
+var door;
 var enterKey; //will be taken out of live version. Demo puposes only.
-// var fireballCollisions;
+var fireballCollisions;
 var facing = 'right';
 var fireballs;
 // var fireballCollision;
@@ -79,6 +91,7 @@ var playerSpeed = 400;
 var respawn;
 var score = 0;
 var shootTime = 0;
+var spikes;
 var text0;
 var text1;
 var text2;
@@ -102,6 +115,7 @@ Game.Level1.prototype = {
     this.select = game.add.audio("menu-select");
     this.pickupItem = game.add.audio("pickup-item")
     this.enemyIgnite = game.add.audio("enemy-ignite");
+    this.deathScream = game.add.audio("death-scream");
 
     this.physics.arcade.gravity.y = 1400;
 
@@ -119,9 +133,7 @@ Game.Level1.prototype = {
     objectLayer = map.createLayer("Object Layer 1")
     backgroundLayer.resizeWorld();
 
-    map.setCollisionBetween(1, 1100, true, 'Collision');
-
-    map.setTileIndexCallback(1683, this.nextLevel, this, 'Collision');
+    map.setCollisionBetween(1, 2000, true, 'Collision');
 
     map.createFromObjects('Object Layer 1', 1, '', 0, true, false, respawn); //spawn point
 
@@ -167,10 +179,22 @@ Game.Level1.prototype = {
     enemy0 = new Enemybat(0, game, player.x + 260, player.y - 75);
     enemy1 = new Enemybat(0, game, player.x + 475, player.y - 75);
 
+    door = this.add.sprite(player.x + 1410, player.y + 610, 'door');
+           this.physics.arcade.enable(door);
+           door.body.allowGravity = false;
+           door.body.immovable = true;
+
+
     var portait = this.add.sprite(5, 5, 'portait');
         portait.scale.x= 0.5;
         portait.scale.y= 0.5;
         portait.fixedToCamera = true;
+
+    spikes0 = new DeathSpikes(0, game, player.x + 2408, player.y + 714);
+    spikes1 = new DeathSpikes(0, game, player.x + 2472, player.y + 714);
+    spikes2 = new DeathSpikes(0, game, player.x + 2536, player.y + 714);
+    spikes3 = new DeathSpikes(0, game, player.x + 2600, player.y + 714);
+
 
     text0 = game.add.text(game.camera.x + 65, game.camera.y + 5, "Score: " + score, {
       font: '20px Press Start 2P',
@@ -215,16 +239,15 @@ Game.Level1.prototype = {
     fireballsLeft.callAll('animations.add', 'animations', 'fire-left', [0, 1, 2, 3, 4], 5, true);
     fireballsLeft.callAll('play', null, 'fireball-sound');
 
-    fireballCollision = game.add.group();
-    fireballCollision.enableBody = true;
-    fireballCollision.physicsBodyType = Phaser.Physics.ARCADE;
-    fireballCollision.createMultiple(20, 'big-fireball-collision');
-    fireballCollision.setAll('anchor.x', 0.5);
-    fireballCollision.setAll('anchor.y', 0.5);
-    fireballCollision.setAll('outOfBoundsKill', true);
-    fireballCollision.setAll('checkWorldBounds', true);
-    fireballCollision.setAll('body.allowGravity', false);
-    fireballCollision.callAll('animations.add', 'animations', 'big-fireball-collision', [0, 1, 2, 3, 4, 5], 10, false);
+    fireballCollisions = game.add.group();
+    fireballCollisions.createMultiple(30, 'big-fireball-collision');
+    fireballCollisions.forEach(deathAnimation, this);
+
+    function deathAnimation(enemy){
+      enemy.anchor.x= 0.5;
+      enemy.anchor.y= 0.5;
+      enemy.animations.add('big-fireball-collision')
+    }
 
     text0.fixedToCamera = true;
     text1.fixedToCamera = true;
@@ -235,29 +258,30 @@ Game.Level1.prototype = {
 
   update: function (game) {
 
+    player.body.velocity.x = 0;
+
+    this.physics.arcade.collide(player, blockedLayer);
+
+    this.physics.arcade.collide(player, door, this.nextLevel, null, this);
+
+    this.physics.arcade.collide(player, [blue0.blueGem, blue1.blueGem, blue2.blueGem, blue3.blueGem, blue4.blueGem, blue5.blueGem, blue6.blueGem], this.item100, null, this);
+    this.physics.arcade.collide(player, [red0.redGem, red1.redGem, red2.redGem], this.item500, null, this);
+    this.physics.arcade.collide(player, [key0.goldKey, key1.goldKey], this.itemKey, null, this);
+    this.physics.arcade.collide(player, [magic0.magicBeaker], this.itemMagicBeaker, null, this);
+    this.physics.arcade.collide(player, [spikes0.deathSpikes, spikes1.deathSpikes, spikes2.deathSpikes, spikes3.deathSpikes], this.deathPit, null, this);
+
+    this.physics.arcade.collide(player, [enemy0.bat, enemy1.bat], this.playerDamage);
+
+    this.physics.arcade.overlap(fireballsRight, [enemy0.bat, enemy1.bat], this.collisionHandler, null, this);
+    this.physics.arcade.overlap(fireballsLeft, [enemy0.bat, enemy1.bat], this.collisionHandler, null, this);
+
     if (health <= 0){
+      this.deathScream.play();
       backgroundMusic.mute = true;
       this.state.start('Endgame', true, false);
       health = 10;
 
     }
-
-    this.physics.arcade.collide(player, blockedLayer);
-
-    this.physics.arcade.collide(player, [blue0.blueGem, blue1.blueGem, blue2.blueGem, blue3.blueGem, blue4.blueGem, blue5.blueGem, blue6.blueGem]);
-    this.physics.arcade.collide(player, [red0.redGem, red1.redGem, red2.redGem]);
-    this.physics.arcade.collide(player, [key0.goldKey, key1.goldKey]);
-    this.physics.arcade.collide(player, [magic0.magicBeaker]);
-
-    this.physics.arcade.collide(player, [enemy0.bat, enemy1.bat], this.playerDamage);
-
-    this.physics.arcade.overlap(fireballsRight, enemy0.bat, this.collisionHandler, null, this);
-    this.physics.arcade.overlap(fireballsLeft, enemy0.bat, this.collisionHandler, null, this);
-
-    this.physics.arcade.overlap(fireballsRight, enemy1.bat, this.collisionHandler1, null, this);
-    this.physics.arcade.overlap(fireballsLeft, enemy1.bat, this.collisionHandler1, null, this);
-
-    player.body.velocity.x = 0;
 
     if (controls.right.isDown) {
       if (player.body.onFloor() || player.body.touching.down) {
@@ -306,102 +330,50 @@ Game.Level1.prototype = {
         this.state.start('Endgame');
     }
 
-    // ITEM COLLSIONS
-
-    if (checkOverlap(player, blue0.blueGem)){
-        blue0.blueGem.kill();
-        this.pickupItem.play();
-        text0.setText("Score: " + (score += 100));
-    }
-    if (checkOverlap(player, blue1.blueGem)){
-        blue1.blueGem.kill();
-        this.pickupItem.play();
-        text0.setText("Score: " + (score += 100));
-    }
-    if (checkOverlap(player, blue2.blueGem)){
-        blue2.blueGem.kill();
-        this.pickupItem.play();
-        text0.setText("Score: " + (score += 100));
-    }
-    if (checkOverlap(player, blue3.blueGem)){
-        blue3.blueGem.kill();
-        this.pickupItem.play();
-        text0.setText("Score: " + (score += 100));
-    }
-    if (checkOverlap(player, blue4.blueGem)){
-        blue4.blueGem.kill();
-        this.pickupItem.play();
-        text0.setText("Score: " + (score += 100));
-    }
-    if (checkOverlap(player, blue5.blueGem)){
-        blue5.blueGem.kill();
-        this.pickupItem.play();
-        text0.setText("Score: " + (score += 100));
-    }
-    if (checkOverlap(player, blue6.blueGem)){
-        blue6.blueGem.kill();
-        this.pickupItem.play();
-        text0.setText("Score: " + (score += 100));
-    }
-    if (checkOverlap(player, red0.redGem)){
-        red0.redGem.kill();
-        this.pickupItem.play();
-        text0.setText("Score: " + (score += 500));
-    }
-    if (checkOverlap(player, red1.redGem)){
-        red1.redGem.kill();
-        this.pickupItem.play();
-        text0.setText("Score: " + (score += 500));
-    }
-    if (checkOverlap(player, red2.redGem)){
-        red2.redGem.kill();
-        this.pickupItem.play();
-        text0.setText("Score: " + (score += 500));
-    }
-    if (checkOverlap(player, key0.goldKey)){
-        key0.goldKey.kill();
-        this.pickupItem.play();
-        text3.setText("Keys: " + (key += 1) +"/2");
-    }
-    if (checkOverlap(player, key1.goldKey)){
-        key1.goldKey.kill();
-        this.pickupItem.play();
-        text3.setText("Keys: " + (key += 1) +"/2");
-    }
-    if (checkOverlap(player, magic0.magicBeaker)){
-        magic0.magicBeaker.kill();
-        this.pickupItem.play();
-        text1.setText("HP:" + health + " MP:" + (mana += 10));
-    }
-
   },
 
-  collisionHandler: function() {
-    // fireballCollision = fireballCollisions.getFirstExists(false);
-    // fireballCollision.reset(fireball.body.x + fireball.body.halfWidth, fireball.body.y + fireball.body.halfHeight);
-    // fireballCollision.animations.play('big-fireball-collision', 10, false, true);
+  collisionHandler: function(fireball, bat) {
     fireball.kill();
-    enemy0.bat.kill();
+    bat.kill();
     text0.setText("Score: " + (score += 50));
-  },
-  collisionHandler1: function() {
-    // fireballCollision = fireballCollision.getFirstExists(false);
-    // fireballCollision.reset(fireball.body.x + fireball.body.halfWidth, fireball.body.y + fireball.body.halfHeight);
-    // fireballCollision.animations.play('big-fireball-collision', 10, false, true);
-    fireball.kill();
-    enemy1.bat.kill();
-    text0.setText("Score: " + (score += 50));
+    var fireballCollision = fireballCollisions.getFirstExists(false);
+    fireballCollision.reset(bat.body.x + 75, bat.body.y + 30);
+    fireballCollision.play('big-fireball-collision', 10, false, true);
   },
 
-  spawn: function() {
-    respawn.forEach(function(spawnPoint) {
-      player.reset(spawnPoint.x, spawnPoint.y);
-    }, this);
+  deathPit: function (player, deathSpikes) {
+    health = 0;
+  },
+
+  item100: function(player, blueGem) {
+    blueGem.kill();
+    this.pickupItem.play();
+    text0.setText("Score: " + (score += 100));
+  },
+
+  item500: function(player, redGem) {
+    redGem.kill();
+    this.pickupItem.play();
+    text0.setText("Score: " + (score += 500));
+  },
+
+  itemKey: function(player, goldKey) {
+    goldKey.kill();
+    this.pickupItem.play();
+    text3.setText("Keys: " + (key += 1) +"/2");
+  },
+
+  itemMagicBeaker : function (player, magicBeaker) {
+    magicBeaker.kill();
+    this.pickupItem.play();
+    text1.setText("HP:" + health + " MP:" + (mana += 10));
   },
 
   nextLevel: function() {
+    if (key >= 2) {
     backgroundMusic.mute = true;
     this.state.start('Endgame', true, false);
+    }
   },
 
   playerDamage: function() {
@@ -424,6 +396,7 @@ Game.Level1.prototype = {
       }
     }
   },
+
   shootFireballRight: function() {
     if (this.time.now > shootTime) {
       shootTime = this.time.now + 800;
@@ -439,13 +412,19 @@ Game.Level1.prototype = {
     }
   },
 
+  spawn: function() {
+    respawn.forEach(function(spawnPoint) {
+      player.reset(spawnPoint.x, spawnPoint.y);
+    }, this);
+  },
 
 }
+
 function checkOverlap(spriteA, spriteB) {
-  if (spriteA.alive == false || spriteB.alive == false){
+  if (spriteA.alive == false || spriteB.alive == false) {
     return false
   }
-    var boundsA = spriteA.getBounds();
-    var boundsB = spriteB.getBounds();
-    return Phaser.Rectangle.intersects(boundsA, boundsB);
+  var boundsA = spriteA.getBounds();
+  var boundsB = spriteB.getBounds();
+  return Phaser.Rectangle.intersects(boundsA, boundsB);
 }
