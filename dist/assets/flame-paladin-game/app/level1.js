@@ -75,6 +75,7 @@ var enemy1;
 Game.Level1 = function(game){}
 
 var controls = {};
+var door;
 var enterKey; //will be taken out of live version. Demo puposes only.
 var fireballCollisions;
 var facing = 'right';
@@ -178,6 +179,10 @@ Game.Level1.prototype = {
     enemy0 = new Enemybat(0, game, player.x + 260, player.y - 75);
     enemy1 = new Enemybat(0, game, player.x + 475, player.y - 75);
 
+    door = this.add.sprite(player.x + 1410, player.y + 610, 'door');
+           this.physics.arcade.enable(door);
+           door.body.allowGravity = false;
+
     var portait = this.add.sprite(5, 5, 'portait');
         portait.scale.x= 0.5;
         portait.scale.y= 0.5;
@@ -255,6 +260,8 @@ Game.Level1.prototype = {
 
     this.physics.arcade.collide(player, blockedLayer);
 
+    this.physics.arcade.collide(player, door, this.nextLevel, null, this);
+
     this.physics.arcade.collide(player, [blue0.blueGem, blue1.blueGem, blue2.blueGem, blue3.blueGem, blue4.blueGem, blue5.blueGem, blue6.blueGem], this.item100, null, this);
     this.physics.arcade.collide(player, [red0.redGem, red1.redGem, red2.redGem], this.item500, null, this);
     this.physics.arcade.collide(player, [key0.goldKey, key1.goldKey], this.itemKey, null, this);
@@ -267,7 +274,7 @@ Game.Level1.prototype = {
     this.physics.arcade.overlap(fireballsLeft, [enemy0.bat, enemy1.bat], this.collisionHandler, null, this);
 
     if (health <= 0){
-      this.deathScream,play();
+      this.deathScream.play();
       backgroundMusic.mute = true;
       this.state.start('Endgame', true, false);
       health = 10;
