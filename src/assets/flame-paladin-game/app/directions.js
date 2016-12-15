@@ -25,7 +25,7 @@ Game.Directions.prototype = {
 
     text4 = game.add.text(210, 100, "HOW TO PLAY", style);
 
-    text5 = game.add.text(85, 200, '   A, S, W, = Move\nSpace bar = Fireball', style2);
+    text5 = game.add.text(85, 200, '   A, W, D, = Move\nSpace bar = Fireball', style2);
 
     text6 = game.add.text(85, 480, "PRESS ENTER TO BEGIN", style);
 

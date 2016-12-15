@@ -22,8 +22,8 @@ Game.Endgame.prototype = {
     var style = {
       font: "28px Press Start 2P", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle" };
 
-    text7 = game.add.text(250, 100, "GAME OVER \n\n  " + name, style);
-    text8 = game.add.text(100, 300, "Your final Score is " + score, style);
+    text7 = game.add.text(250, 100, "GAME OVER \n\n" + name, style);
+    text8 = game.add.text(100, 300, "Your final Score is \n         " + score, style);
     text9 = game.add.text(250, 500, "PRESS ENTER", style);
 
     var myFunction = function(event) {
@@ -70,7 +70,7 @@ Game.Endgame.prototype = {
       ScoreService.createScores(name, score);
       name = "";
       score = 0;
-      mana = 10; 
+      mana = 10;
       this.state.start('Boot', true, true);
     },
 

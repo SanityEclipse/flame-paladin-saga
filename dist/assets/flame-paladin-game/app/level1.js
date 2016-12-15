@@ -114,7 +114,7 @@ Game.Level1.prototype = {
     this.select = game.add.audio("menu-select");
     this.pickupItem = game.add.audio("pickup-item")
     this.enemyIgnite = game.add.audio("enemy-ignite");
-    this.deathScream = game.add.audio("death-scream"); 
+    this.deathScream = game.add.audio("death-scream");
 
     this.physics.arcade.gravity.y = 1400;
 
@@ -267,6 +267,7 @@ Game.Level1.prototype = {
     this.physics.arcade.overlap(fireballsLeft, [enemy0.bat, enemy1.bat], this.collisionHandler, null, this);
 
     if (health <= 0){
+      this.deathScream,play();
       backgroundMusic.mute = true;
       this.state.start('Endgame', true, false);
       health = 10;
@@ -332,7 +333,6 @@ Game.Level1.prototype = {
   },
 
   deathPit: function (player, deathSpikes) {
-    this.deathScream.play();
     health = 0;
   },
 
