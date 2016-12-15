@@ -22,9 +22,9 @@ Game.Endgame.prototype = {
     var style = {
       font: "28px Press Start 2P", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle" };
 
-    text7 = game.add.text(250, 100, "GAME OVER \n\n" + name, style);
-    text8 = game.add.text(100, 300, "Your final Score is \n         " + score, style);
-    text9 = game.add.text(250, 500, "PRESS ENTER", style);
+    text7 = game.add.text(220, 100, "GAME OVER \n\n" + name, style);
+    text8 = game.add.text(100, 300, "Your final Score is \n       " + score, style);
+    text9 = game.add.text(210, 475, "PRESS ENTER", style);
 
     var myFunction = function(event) {
 
@@ -52,7 +52,7 @@ Game.Endgame.prototype = {
         name += event.key;
       }
 
-        text7 = game.add.text(250, 100, "GAME OVER \n\n  " + name, style);
+        text7 = game.add.text(220, 100, "GAME OVER \n\n  " + name, style);
     }
 
     game.input.keyboard.addCallbacks(this, myFunction);
