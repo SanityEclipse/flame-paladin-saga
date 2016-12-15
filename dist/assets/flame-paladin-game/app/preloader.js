@@ -16,7 +16,7 @@ Game.Preloader.prototype = {
       this.load.image('Level_Bg', 'assets/flame-paladin-game/assets/images/world/background.jpg');
 
       this.load.image('portait', 'assets/flame-paladin-game/assets/images/player/portait.png');
-      this.load.spritesheet('player', 'assets/flame-paladin-game/assets/images/player/merged-paladin-small.png', 60, 96);
+      this.load.spritesheet('player', 'assets/flame-paladin-game/assets/images/player/merged-paladin.png', 60, 96);
       this.load.spritesheet('fire-right', 'assets/flame-paladin-game/assets/images/player/fireball-right.png', 64, 64);
       this.load.spritesheet('fire-left', 'assets/flame-paladin-game/assets/images/player/fireball-left.png', 64, 64);
       this.load.spritesheet('big-fireball-collision', 'assets/flame-paladin-game/assets/images/player/big-fireball-collision.png', 48, 48);

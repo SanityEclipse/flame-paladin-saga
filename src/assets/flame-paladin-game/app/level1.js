@@ -134,6 +134,7 @@ Game.Level1.prototype = {
     player.animations.add('run', [0, 1, 2, 3, 4, 5, 6, 7], 10, true);
     player.animations.add('shoot-fireball-right', [10, 11, 12, 13, 14], 20, false);
     player.animations.add('shoot-fireball-left', [10, 11, 12, 13, 14], 20, false);
+    player.animations.add('damage',[16, 17, 18, 19, 20, 21], 10, false);
     this.camera.follow(player);
     this.physics.arcade.enable(player);
     player.body.collideWorldBounds = true;
@@ -405,9 +406,8 @@ Game.Level1.prototype = {
 
   playerDamage: function() {
     text1.setText("HP:" + (health -= 1) + " MP:" + mana);
-    player.animations.stop();
-    player.animations.frame = 2;
-    player.body.velocity.y = -750;
+    player.animations.play('damage');
+    player.body.velocity.y = -550;
   },
 
   shootFireballLeft: function() {
