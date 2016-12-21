@@ -35,7 +35,7 @@ exports = module.exports = __webpack_require__(642)();
 
 
 // module
-exports.push([module.i, "body {\n  background: red; /* For browsers that do not support gradients */\n  background: -webkit-linear-gradient(left, red , black); /* For Safari 5.1 to 6.0 */ /* For Opera 11.1 to 12.0 */ /* For Firefox 3.6 to 15 */\n  background: linear-gradient(to right, red , black); /* Standard syntax */\n  min-height: 100vh; \n}\n\n#static-header {\n  font-family: 'Press Start 2P', cursive;\n  background-color: black;\n}\n\n#static-header > h1 {\n  margin-left: 15%;\n  color: red;\n}\n\n#sticky-footer {\n  background-color: black;\n  color: red;\n}\n\n#sticky-footer-text {\n  font-family: 'Press Start 2P', cursive;\n}\n", ""]);
+exports.push([module.i, "body {\n  background: red; /* For browsers that do not support gradients */\n  background: -webkit-linear-gradient(left, red , black); /* For Safari 5.1 to 6.0 */ /* For Opera 11.1 to 12.0 */ /* For Firefox 3.6 to 15 */\n  background: linear-gradient(to right, red , black); /* Standard syntax */\n  min-height: 100vh;\n  padding-bottom: 70px;\n}\n\n#static-header {\n  font-family: 'Press Start 2P', cursive;\n  margin-left: 15%;\n  color: red;\n}\n\n#sticky-footer {\n  background-color: black;\n  color: red;\n  font-family: 'Press Start 2P', cursive;\n}\n", ""]);
 
 // exports
 
