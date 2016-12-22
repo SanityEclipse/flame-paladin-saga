@@ -129,8 +129,6 @@ var text1;
 var text2;
 var text3;
 
-var scaleRatio = window.devicePixelRatio / 3;
-
 Game.Level1.prototype = {
 
   create: function (game) {
