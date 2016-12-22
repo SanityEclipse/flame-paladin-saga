@@ -129,6 +129,7 @@ var text1;
 var text2;
 var text3;
 
+var scaleRatio = window.devicePixelRatio / 3;
 
 Game.Level1.prototype = {
 
@@ -159,6 +160,7 @@ Game.Level1.prototype = {
 
     map = this.add.tilemap('myMap');
     map.addTilesetImage('reducedtileset', 'tileset');
+
 
     backgroundLayer = map.createLayer("Background");
     blockedLayer = map.createLayer("Collision");
@@ -340,7 +342,7 @@ Game.Level1.prototype = {
       this.deathScream.play();
       backgroundMusic.mute = true;
       this.state.start('Endgame', true, false);
-      key = 0; 
+      key = 0;
       health = 10;
 
     }

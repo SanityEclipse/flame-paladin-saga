@@ -5,7 +5,7 @@ import * as Phaser from 'phaser';
 @Component({
   selector: 'app-game-canvas',
   template: `
-  <div class = 'container'>
+  <div class = 'container-fluid'>
     <div>
       <div id="game-renders-here"></div>
     </div>

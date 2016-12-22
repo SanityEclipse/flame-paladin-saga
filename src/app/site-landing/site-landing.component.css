@@ -8,7 +8,6 @@
 }
 
 #landing-jumbotron {
-margin-top: 1%;
 color: white;
 border: 2px solid white;
 background: red; /* For browsers that do not support gradients */
@@ -21,12 +20,8 @@ background: radial-gradient(red, darkred, black); /* Standard syntax */
 #tech-thumbnail {
 color: white;
 background-image: url('assets/angular-2-opaque-image.png');
-background-size: 600px 275px;
+background-size: 1000px 275px;
 background-repeat: no-repeat;
 background-position: center;
-
-}
-
-#tech-thumbnail > div > p {
 
 }
