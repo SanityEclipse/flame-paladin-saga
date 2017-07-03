@@ -8,7 +8,8 @@ import 'rxjs/add/operator/toPromise';
 export class ScoreService {
 
 
-  constructor(private http: Http) { window.ScoreService = this }
+  constructor(private http: Http) {}
+  // { window.ScoreService = this }
 
   getScores(): Promise<Score[]> {
 

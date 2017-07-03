@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import * as Phaser from 'phaser';
 
+import * as Phaser from 'phaser';
+import * as Game from 'phaser';
 
 @Component({
   selector: 'app-game-canvas',
@@ -15,6 +16,8 @@ import * as Phaser from 'phaser';
 })
 
 export class GameCanvasComponent implements OnInit, OnDestroy {
+
+  game = this.game; 
 
   constructor() {}
 
