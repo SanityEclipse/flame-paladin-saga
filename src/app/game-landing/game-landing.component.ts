@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ScoreService } from '../score.service';
-import { Score } from '../Score';
+import { ScoreService } from './score.service';
+import { Score } from './Score';
 
 @Component({
   selector: 'app-game-landing',
@@ -18,7 +18,7 @@ import { Score } from '../Score';
         <a routerLink="/site-landing" class="btn btn-lg btn-danger" role="button" style="margin-top: 85%">Return to Landing</a>
       </p>
     </div>
-    
+
   <app-game-canvas></app-game-canvas>
 
   `,
