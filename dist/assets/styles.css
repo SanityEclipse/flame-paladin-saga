@@ -1,0 +1,27 @@
+body {
+  background: red; /* For browsers that do not support gradients */
+  background: -webkit-linear-gradient(left, red , black); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(right, red, black); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(right, red, black); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(to right, red , black); /* Standard syntax */
+  min-height: 100vh; 
+}
+
+#static-header {
+  font-family: 'Press Start 2P', cursive;
+  background-color: black;
+}
+
+#static-header > h1 {
+  margin-left: 15%;
+  color: red;
+}
+
+#sticky-footer {
+  background-color: black;
+  color: red;
+}
+
+#sticky-footer-text {
+  font-family: 'Press Start 2P', cursive;
+}

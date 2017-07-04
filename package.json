@@ -5,7 +5,7 @@
   "angular-cli": {},
   "scripts": {
     "start": "ng serve",
-    "build": "ng build && node app.js",
+    "build": "ng build && node ./server/bin/www",
     "lint": "tslint \"src/**/*.ts\"",
     "test": "ng test",
     "pree2e": "webdriver-manager update",
@@ -32,6 +32,7 @@
     "dotenv": "^2.0.0",
     "express": "^4.15.3",
     "knex": "^0.12.9",
+    "morgan": "^1.8.2",
     "pg": "^6.4.0",
     "phaser": "^2.6.2",
     "rxjs": "^5.4.1",
