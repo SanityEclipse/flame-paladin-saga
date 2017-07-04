@@ -1,6 +1,6 @@
 #contact-thumbnail {
   border: 2px solid lightblue;
-  background-image: url('assets/gmail-opaque-image.png');
+  background-image: url('/assets/gmail-opaque-image.png');
   background-size: 150px 150px;
   background-repeat: no-repeat;
   background-position: center;
@@ -19,7 +19,7 @@ background: radial-gradient(red, darkred, black); /* Standard syntax */
 
 #tech-thumbnail {
 color: white;
-background-image: url('assets/angular-2-opaque-image.png');
+background-image: url('/assets/angular-2-opaque-image.png');
 background-size: 1000px 275px;
 background-repeat: no-repeat;
 background-position: center;
