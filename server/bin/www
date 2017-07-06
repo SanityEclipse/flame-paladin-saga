@@ -1,25 +1,37 @@
-require('dotenv').config();
+#!/usr/bin/env node
 
-var express = require ('express')
-var app = express ();
-var bodyParser = require('body-parser');
-var queries = require ('./db/queries');
-var http = require('http');
-var debug = require('debug')
+/**
+ * Module dependencies.
+ */
 
-app.use(express.static("dist"));
-app.use(bodyParser.json());
+const app = require('../app');
+const debug = require('debug')('q1_w_express:server');
+const http = require('http');
+
+/**
+ * Get port from environment and store in Express.
+ */
 
 var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
+/**
+ * Create HTTP server.
+ */
+
 var server = http.createServer(app);
+
+/**
+ * Listen on provided port, on all network interfaces.
+ */
 
 server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
 
-
+/**
+ * Normalize a port into a number, string, or false.
+ */
 
 function normalizePort(val) {
   var port = parseInt(val, 10);
@@ -37,6 +49,9 @@ function normalizePort(val) {
   return false;
 }
 
+/**
+ * Event listener for HTTP server "error" event.
+ */
 
 function onError(error) {
   if (error.syscall !== 'listen') {
@@ -62,6 +77,10 @@ function onError(error) {
   }
 }
 
+/**
+ * Event listener for HTTP server "listening" event.
+ */
+
 function onListening() {
   var addr = server.address();
   var bind = typeof addr === 'string'
@@ -69,24 +88,3 @@ function onListening() {
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
 }
-
-// GET method route
-app.get('/highscores', function (req, res, next) {
-  queries.getScore()
-  .then(function(data){
-    res.json(data);
-  })
-});
-
-// POST method route
-app.post('/highscores', function (req, res, next) {
-  console.log(req.body);
-  queries.createScore(req.body)
-  .then(function(data){
-    res.json(data);
-  })
-});
-
-app.get('*', function (req, res) {
-  res.sendFile('dist/index.html', {root:'.'});
-});
