@@ -31,7 +31,7 @@ export class GameCanvasComponent implements OnInit, OnDestroy {
     // this.game.state.add('Directions', Game.Directions);
     // this.game.state.add('Level1', Game.Level1);
     // this.game.state.add('Endgame', Game.Endgame);
-    // 
+    //
     // this.game.state.start('Boot');
 
   }
