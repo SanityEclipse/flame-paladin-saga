@@ -33,9 +33,9 @@ export class GameLandingComponent implements OnInit {
     private ScoreService: ScoreService) {}
 
   ngOnInit() {
-    this.ScoreService.getScores()
-    .then(scores => this.scores = scores.slice(1,6))
-      console.log(this.scores);
+    // this.ScoreService.getScores()
+    // .then(scores => this.scores = scores.slice(1,6))
+    //   console.log(this.scores);
 
   }
 
