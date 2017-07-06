@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
-import * as Phaser from 'phaser';
-import * as Game from 'phaser';
+// import * as Phaser from 'phaser';
+// import * as Game from 'phaser';
 
 @Component({
   selector: 'app-game-canvas',
@@ -17,29 +17,29 @@ import * as Game from 'phaser';
 
 export class GameCanvasComponent implements OnInit, OnDestroy {
 
-  game = this.game; 
+  game = this.game;
 
   constructor() {}
 
   ngOnInit() {
 
-    this.game = new Phaser.Game(725, 525, Phaser.AUTO,'game-renders-here');
-
-    this.game.state.add('Boot', Game.Boot);
-    this.game.state.add('Preloader', Game.Preloader);
-    this.game.state.add('Menu', Game.Menu);
-    this.game.state.add('Directions', Game.Directions);
-    this.game.state.add('Level1', Game.Level1);
-    this.game.state.add('Endgame', Game.Endgame);
-
-    this.game.state.start('Boot');
+    // this.game = new Phaser.Game(725, 525, Phaser.AUTO,'game-renders-here');
+    //
+    // this.game.state.add('Boot', Game.Boot);
+    // this.game.state.add('Preloader', Game.Preloader);
+    // this.game.state.add('Menu', Game.Menu);
+    // this.game.state.add('Directions', Game.Directions);
+    // this.game.state.add('Level1', Game.Level1);
+    // this.game.state.add('Endgame', Game.Endgame);
+    // 
+    // this.game.state.start('Boot');
 
   }
 
   ngOnDestroy() {
 
-    this.game.destroy();
-    console.log("ngOnDestroy");
+    // this.game.destroy();
+    // console.log("ngOnDestroy");
 
   }
 

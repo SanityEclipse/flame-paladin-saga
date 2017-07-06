@@ -9,11 +9,11 @@ import { Score } from './Score';
 
   <div style="float:left; margin-left:10%">
     <h1 style="color:white">Top 5 Scores</h1>
-      <div *ngFor="let score of scores">
+      <!-- <div *ngFor="let score of scores">
         <ul>
           <li style="color:white"> {{ score.name }} {{ score.score }} </li>
         </ul>
-      </div>
+      </div> -->
       <p align="left">
         <a routerLink="/site-landing" class="btn btn-lg btn-danger" role="button" style="margin-top: 85%">Return to Landing</a>
       </p>
